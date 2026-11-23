@@ -158,9 +158,20 @@ Cela crée deux fichiers :
    secret `DEPLOY_PATH`.
 
 > ⚠️ **Choisir le bon dossier.** Le déploiement **remplace tout le contenu** du dossier cible
-> (option `--delete`). Ne jamais viser le dossier parent ni celui de `api.butus.org` (`butus-api`).
-> Seul le `public_html` du site `butus.org` doit être utilisé. Le fichier `DO_NOT_UPLOAD_HERE`
-> visible dans le gestionnaire de fichiers indique justement un dossier où il ne faut rien envoyer.
+> (option `--delete`), sauf les chemins exclus dans le workflow. Ne jamais viser le dossier parent
+> (`~/domains/butus.org`, qui contient `DO_NOT_UPLOAD_HERE`) ni `butus-api`.
+>
+> Organisation actuelle sur le serveur :
+>
+> ```
+> ~/domains/butus.org/
+> ├─ butus-api/            code de l'API (Laravel), déployé séparément
+> ├─ DO_NOT_UPLOAD_HERE
+> └─ public_html/          ← DEPLOY_PATH : site vitrine
+>    ├─ api -> ../butus-api/public   sert api.butus.org : protégé par --exclude
+>    ├─ api.vide/                    protégé par --exclude
+>    └─ default.php                  page d'attente Hostinger, supprimée au 1er déploiement
+> ```
 
 5. Faire une **sauvegarde** du contenu actuel de `public_html` (aujourd'hui, la page Hostinger
    « Bientôt disponible ») : hPanel → **Fichiers** → **Sauvegardes**, ou téléchargement depuis le
@@ -282,10 +293,19 @@ jobs:
 
       - name: Envoyer les fichiers (rsync)
         run: |
+          # --delete supprime ce qui n'est plus dans le site, SAUF les chemins exclus :
+          #   /api       lien vers ../butus-api/public : c'est api.butus.org, ne JAMAIS supprimer
+          #   /api.vide  dossier lié à l'API
+          #   /.well-known/  certificats SSL de Hostinger
           rsync -az --delete --stats \
-            --exclude '.well-known/' \
+            --exclude '/api' \
+            --exclude '/api.vide' \
+            --exclude '/.well-known/' \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
             dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/"
+
+      - name: Vérifier que le lien de l'API est intact
+        run: ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" "test -L '${{ secrets.DEPLOY_PATH }}/api' && echo 'Lien api intact'"
 
       - name: Vérifier que le site répond
         run: |
@@ -298,7 +318,13 @@ Points importants :
 - `dist/` (barre oblique finale) envoie le **contenu** du dossier, pas le dossier lui-même.
 - `--delete` supprime sur le serveur les fichiers qui n'existent plus dans le site (anciennes images,
   anciens fichiers `_astro/…`). C'est pour cela que `DEPLOY_PATH` doit être exact.
-- `--exclude '.well-known/'` préserve le dossier utilisé par Hostinger pour le certificat SSL.
+- `--exclude` protège de `--delete` trois chemins qui n'appartiennent pas au site vitrine :
+  - `/api` : **lien vers `../butus-api/public`, c'est lui qui sert `api.butus.org`**. Le supprimer couperait l'API ;
+  - `/api.vide` : dossier lié à l'API ;
+  - `/.well-known/` : dossier utilisé par Hostinger pour le certificat SSL.
+- Après l'envoi, le workflow vérifie que le lien `api` existe toujours. Sinon, il échoue en rouge.
+- Si un jour un autre dossier est ajouté dans `public_html` pour un autre service, **l'ajouter aux `--exclude`
+  avant le déploiement suivant**, sinon il sera supprimé.
 - `include-hidden-files: true` : sans cette option, `.htaccess` serait perdu entre les deux étapes.
 
 ---
@@ -310,60 +336,62 @@ Fichier [`public/.htaccess`](public/.htaccess) (déjà présent dans le dépôt)
 
 ```apache
 # ── BUTUS · butus.org ──────────────────────────────────────────
+#
+# ⚠️ L'API (api.butus.org) est servie depuis public_html/api (lien vers ../butus-api/public).
+# Ce fichier s'applique donc AUSSI aux requêtes de l'API. Chaque règle est limitée au
+# domaine butus.org, ou choisie pour être sans effet sur l'API.
 
 Options -Indexes
-DirectoryIndex index.html
+# index.php reste listé pour l'API (Laravel), qui hérite de ce réglage.
+DirectoryIndex index.html index.php
 
-# 1. HTTPS obligatoire et www → apex (redirection 301 unique)
+# Repère les requêtes du site vitrine (butus.org et www.butus.org), pas celles de l'API.
+SetEnvIfNoCase Host ^(www\.)?butus\.org$ BUTUS_SITE
+
+# 1. HTTPS obligatoire et www → apex (redirection 301 unique), site vitrine seulement
 RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?butus\.org$ [NC]
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^ https://butus.org%{REQUEST_URI} [L,R=301]
 
-# 2. Page 404 personnalisée (générée par Astro)
+# 2. Page 404 personnalisée (générée par Astro). L'API gère ses propres 404 via Laravel.
 ErrorDocument 404 /404.html
 
-# 3. Sécurité
+# 3. Sécurité (site vitrine seulement)
 <IfModule mod_headers.c>
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000" env=BUTUS_SITE
+  Header always set X-Content-Type-Options "nosniff" env=BUTUS_SITE
+  Header always set Referrer-Policy "strict-origin-when-cross-origin" env=BUTUS_SITE
+  Header always set X-Frame-Options "SAMEORIGIN" env=BUTUS_SITE
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()" env=BUTUS_SITE
 </IfModule>
 
-# 4. Cache navigateur
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 1 hour"
-  ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType font/woff2 "access plus 1 year"
-</IfModule>
-
+# 4. Cache navigateur (site vitrine seulement ; pas de mod_expires, qui toucherait aussi l'API)
 <IfModule mod_headers.c>
-  # CSS, JS et polices : générés par Astro dans /_astro/ avec une empreinte dans le nom,
-  # donc jamais modifiés une fois publiés → cache d'un an
+  # CSS, JS et polices : générés par Astro dans /_astro/ avec une empreinte dans le nom
   <FilesMatch "\.(css|js|woff2)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Cache-Control "public, max-age=31536000, immutable" env=BUTUS_SITE
+  </FilesMatch>
+  <FilesMatch "\.(webp|png|jpe?g|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000" env=BUTUS_SITE
   </FilesMatch>
   # Pages HTML : toujours revalider pour voir la dernière version
   <FilesMatch "\.html$">
-    Header set Cache-Control "no-cache"
+    Header set Cache-Control "no-cache" env=BUTUS_SITE
   </FilesMatch>
 </IfModule>
 
-# 5. Compression
+# 5. Compression (sans effet sur les réponses JSON de l'API)
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain
 </IfModule>
 ```
 
-> `includeSubDomains` dans HSTS impose aussi HTTPS à `api.butus.org`. C'est le comportement voulu
-> si l'API a déjà son certificat SSL. Sinon, retirer `; includeSubDomains`.
+> **Ce `.htaccess` s'applique aussi à l'API.** `api.butus.org` est servi depuis `public_html/api`, donc
+> le serveur lit aussi ce fichier pour les requêtes de l'API. C'est pourquoi les redirections, les en-têtes
+> et le cache sont limités à `butus.org` (variable `BUTUS_SITE`), et pourquoi `index.php` reste dans
+> `DirectoryIndex`. Après le premier déploiement, vérifier que `https://api.butus.org` répond comme avant.
 
 ---
 
@@ -446,6 +474,7 @@ Pour une petite correction, un push direct sur `main` fonctionne aussi (si la br
 | Symptôme | Cause probable | Solution |
 |---|---|---|
 | `Permission denied (publickey)` | Clé publique absente chez Hostinger, ou secret `SSH_PRIVATE_KEY` incomplet | Refaire les étapes 3 et 4. Copier la clé privée entière, lignes `BEGIN`/`END` comprises |
+| `api.butus.org` ne répond plus après un déploiement | Lien `public_html/api` supprimé | Le recréer en SSH : `cd ~/domains/butus.org/public_html && ln -s ../butus-api/public api`, puis vérifier les `--exclude` du workflow |
 | `Connection timed out` | Mauvais port ou SSH désactivé | Vérifier `SSH_PORT` (65002) et que l'accès SSH est activé dans hPanel |
 | `Host key verification failed` | Étape `ssh-keyscan` en échec | Vérifier `SSH_HOST` et `SSH_PORT` |
 | `rsync: … No such file or directory` | `DEPLOY_PATH` faux | Se connecter en SSH et refaire `pwd` dans le bon `public_html` |

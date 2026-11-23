@@ -71,10 +71,19 @@ jobs:
 
       - name: Envoyer les fichiers (rsync)
         run: |
+          # --delete supprime ce qui n'est plus dans le site, SAUF les chemins exclus :
+          #   /api       lien vers ../butus-api/public : c'est api.butus.org, ne JAMAIS supprimer
+          #   /api.vide  dossier lié à l'API
+          #   /.well-known/  certificats SSL de Hostinger
           rsync -az --delete --stats \
-            --exclude '.well-known/' \
+            --exclude '/api' \
+            --exclude '/api.vide' \
+            --exclude '/.well-known/' \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
             dist/ "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/"
+
+      - name: Vérifier que le lien de l'API est intact
+        run: ssh -p "${{ secrets.SSH_PORT }}" "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" "test -L '${{ secrets.DEPLOY_PATH }}/api' && echo 'Lien api intact'"
 
       - name: Vérifier que le site répond
         run: |

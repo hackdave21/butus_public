@@ -165,7 +165,8 @@ butus_public/
 - Hébergeur retenu : **Hostinger** (plan Cloud Startup, site `butus.org`, domaine enregistré chez Hostinger).
 - Déploiement automatique : GitHub Actions construit `dist/` puis l'envoie par rsync/SSH dans le
   `public_html` du site à chaque push sur `main`. Procédure complète dans [`README.md`](README.md).
-- HTTPS forcé et `www` → apex en 301 via `public/.htaccess`. Ne jamais déployer dans le dossier de `api.butus.org`.
+- HTTPS forcé et `www` → apex en 301 via `public/.htaccess`.
+- ⚠️ `api.butus.org` est servi depuis `public_html/api` (lien vers `../butus-api/public`) : le déploiement l'exclut de `--delete`, et chaque règle du `.htaccess` doit rester sans effet sur l'API.
 - Le compte d'hébergement doit appartenir à BUTUS et pas au compte personnel d'une seule personne.
 
 ---

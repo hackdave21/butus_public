@@ -1,51 +1,51 @@
 # ── BUTUS · butus.org ──────────────────────────────────────────
+#
+# ⚠️ L'API (api.butus.org) est servie depuis public_html/api (lien vers ../butus-api/public).
+# Ce fichier s'applique donc AUSSI aux requêtes de l'API. Chaque règle est limitée au
+# domaine butus.org, ou choisie pour être sans effet sur l'API.
 
 Options -Indexes
-DirectoryIndex index.html
+# index.php reste listé pour l'API (Laravel), qui hérite de ce réglage.
+DirectoryIndex index.html index.php
 
-# 1. HTTPS obligatoire et www → apex (redirection 301 unique)
+# Repère les requêtes du site vitrine (butus.org et www.butus.org), pas celles de l'API.
+SetEnvIfNoCase Host ^(www\.)?butus\.org$ BUTUS_SITE
+
+# 1. HTTPS obligatoire et www → apex (redirection 301 unique), site vitrine seulement
 RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?butus\.org$ [NC]
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^ https://butus.org%{REQUEST_URI} [L,R=301]
 
-# 2. Page 404 personnalisée (générée par Astro)
+# 2. Page 404 personnalisée (générée par Astro). L'API gère ses propres 404 via Laravel.
 ErrorDocument 404 /404.html
 
-# 3. Sécurité
+# 3. Sécurité (site vitrine seulement)
 <IfModule mod_headers.c>
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set Referrer-Policy "strict-origin-when-cross-origin"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=31536000" env=BUTUS_SITE
+  Header always set X-Content-Type-Options "nosniff" env=BUTUS_SITE
+  Header always set Referrer-Policy "strict-origin-when-cross-origin" env=BUTUS_SITE
+  Header always set X-Frame-Options "SAMEORIGIN" env=BUTUS_SITE
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()" env=BUTUS_SITE
 </IfModule>
 
-# 4. Cache navigateur
-<IfModule mod_expires.c>
-  ExpiresActive On
-  ExpiresDefault "access plus 1 hour"
-  ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType image/webp "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType font/woff2 "access plus 1 year"
-</IfModule>
-
+# 4. Cache navigateur (site vitrine seulement ; pas de mod_expires, qui toucherait aussi l'API)
 <IfModule mod_headers.c>
-  # CSS, JS et polices : générés par Astro dans /_astro/ avec une empreinte dans le nom,
-  # donc jamais modifiés une fois publiés → cache d'un an
+  # CSS, JS et polices : générés par Astro dans /_astro/ avec une empreinte dans le nom
   <FilesMatch "\.(css|js|woff2)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Cache-Control "public, max-age=31536000, immutable" env=BUTUS_SITE
+  </FilesMatch>
+  <FilesMatch "\.(webp|png|jpe?g|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000" env=BUTUS_SITE
   </FilesMatch>
   # Pages HTML : toujours revalider pour voir la dernière version
   <FilesMatch "\.html$">
-    Header set Cache-Control "no-cache"
+    Header set Cache-Control "no-cache" env=BUTUS_SITE
   </FilesMatch>
 </IfModule>
 
-# 5. Compression
+# 5. Compression (sans effet sur les réponses JSON de l'API)
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain
 </IfModule>
