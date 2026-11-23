@@ -24,7 +24,7 @@ const jsonLd = {
   '@type': 'Organization',
   name: 'BUTUS',
   url: 'https://butus.org',
-  logo: 'https://butus.org/favicon.svg',
+  logo: 'https://butus.org/icon-512.png',
   slogan: 'Donner une seconde vie aux objets et créer de nouvelles opportunités.',
   description,
   areaServed: { '@type': 'Country', name: 'Togo' },
@@ -49,7 +49,10 @@ const jsonLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#173A34" />
 
     <meta property="og:type" content="website" />

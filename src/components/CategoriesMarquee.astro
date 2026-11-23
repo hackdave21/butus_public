@@ -4,7 +4,7 @@ interface Props { reverse?: boolean }
 const { reverse = false } = Astro.props;
 const rows = [categories, [...categories].reverse()];
 ---
-<section class="overflow-hidden py-14 md:py-20" aria-labelledby="cat-title">
+<section class="marquee-section overflow-hidden" aria-labelledby="cat-title">
   <h2 id="cat-title" class="sr-only">Les catégories d'objets sur BUTUS</h2>
   <div class="flex flex-col gap-4">
     {rows.map((row, r) => (

@@ -99,7 +99,7 @@ Retour client : le site doit être **attrayant et animé**, pas trop simple. Ani
 
 Photos : générées à partir des prompts de [`PROMPTS_IMAGES.md`](PROMPTS_IMAGES.md), déposées dans
 `public/images/hero/` et `public/images/pages/`. Tant qu'une photo manque, `Visual.astro` affiche un visuel
-de remplacement aux couleurs de la charte. L'en-tête de la page Application et le bloc du fondateur n'ont **pas de photo** (choix du client).
+de remplacement aux couleurs de la charte. L'en-tête de la page Application n'a **pas de photo**, et la page Mission n'a **pas de bloc fondateur** (choix du client).
 
 ---
 
@@ -109,7 +109,7 @@ Chaque entrée du menu a **sa propre page** (retour client : pas de site monopag
 
 ```
 /                    Accueil : carrousel, qui sommes-nous, 5 piliers, parcours de l'app, publics, catégories, appel à contact
-/mission             Mission : constat, économie circulaire, valeurs, fondateur, vision
+/mission             Mission : constat, économie circulaire, valeurs, vision
 /ce-que-fait-butus   Les 5 piliers détaillés (ancres #vendre…), parcours, états des objets, publics, engagements, catégories
 /application         Fonctionnalités, parcours, galerie d'écrans, publics, feuille de route (sans dates), FAQ
 /contact             Canaux (e-mail, téléphone, WhatsApp), raisons de nous écrire (mailto avec objet prérempli),
@@ -139,7 +139,8 @@ Aucune donnée personnelle n'est collectée, donc pas de bannière cookies (si l
 ```
 butus_public/
 ├─ CLAUDE.md, PROMPTS_IMAGES.md
-├─ public/            favicon, og-image.png, robots.txt, images/hero/, images/pages/
+├─ public/            favicons (favicon.ico, favicon-32, apple-touch-icon, icon-192/512, site.webmanifest), og-image.png, robots.txt, images/
+├─ brand/             sources du logo « B » (fond forest et fond blanc), non publiées
 └─ src/
    ├─ data/site.ts          menu, contact, catégories, piliers, diapositives
    ├─ lib/images.ts         détection des photos présentes

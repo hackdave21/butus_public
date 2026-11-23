@@ -117,7 +117,7 @@ Close-up of a Togolese woman's hands holding a smartphone sideways to photograph
 
 ## Retirés du site
 
-- L'en-tête de la page Application et le bloc du fondateur (page Mission) n'ont **pas de photo**,
+- L'en-tête de la page Application n'a **pas de photo**, et le bloc du fondateur (page Mission) est retiré,
   à la demande du client. Ne pas les réintroduire sans demande.
 
 ## Vérification avant intégration

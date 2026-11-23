@@ -78,10 +78,18 @@
   .block-lg { border-radius: var(--radius-lg); }
   .block-md { border-radius: var(--radius-md); }
   .lead { font-size: var(--text-step-1); line-height: 1.5; }
-  .section { padding-block: 4.5rem; }
+  /* Espacement des sections (retour client : trop d'espace entre les sections) */
+  .section { padding-block: 3rem; }
   @media (min-width: 768px) {
-    .section { padding-block: 6.5rem; }
+    .section { padding-block: 4.5rem; }
   }
+  /* Deux sections blanches qui se suivent : pas de double marge entre elles */
+  .section:not([class*="bg-"]) + .section:not([class*="bg-"]) { padding-top: 0; }
+  .marquee-section { padding-block: 2.5rem; }
+  @media (min-width: 768px) {
+    .marquee-section { padding-block: 3.5rem; }
+  }
+  .section:not([class*="bg-"]) + .marquee-section { padding-top: 0; }
 
   /* Pastille de section (pas en majuscules, pas d'interlettrage forcé) */
   .kicker {
