@@ -99,7 +99,7 @@ Retour client : le site doit être **attrayant et animé**, pas trop simple. Ani
 
 Photos : générées à partir des prompts de [`PROMPTS_IMAGES.md`](PROMPTS_IMAGES.md), déposées dans
 `public/images/hero/` et `public/images/pages/`. Tant qu'une photo manque, `Visual.astro` affiche un visuel
-de remplacement aux couleurs de la charte. La photo du fondateur doit être une **vraie** photo.
+de remplacement aux couleurs de la charte. L'en-tête de la page Application et le bloc du fondateur n'ont **pas de photo** (choix du client).
 
 ---
 

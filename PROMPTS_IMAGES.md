@@ -98,12 +98,6 @@ Two pairs of Togolese hands passing a small used radio across a crowded Lomé ma
 Wide interior shot of a bright Lomé second-hand boutique, wooden shelves with neatly sorted phones, laptops, shoes and books, a small wooden chair in the corner, Togolese shopkeeper arranging items with care, yellow accent wall and forest green shelving, calm orderly atmosphere, natural daylight from the entrance
 ```
 
-### 8. `application.webp` — « L'application »
-
-```
-Young Togolese man sitting on a low wall in a sunny Lomé street, smiling as he scrolls on his phone with the screen facing away from the camera, deep green t-shirt, yellow motorbike-taxi passing softly blurred behind, relaxed everyday mood, medium shot
-```
-
 ### 9. `contact.webp` — « Contact »
 
 ```
@@ -121,10 +115,10 @@ Close-up of a Togolese woman's hands holding a smartphone sideways to photograph
 
 ---
 
-## Hors génération
+## Retirés du site
 
-- `fondateur.jpg` : **vraie photo** de Gedeon Essodonn BATAWOLO. Aucune génération, aucun
-  « portrait plausible » : ce serait trompeur.
+- L'en-tête de la page Application et le bloc du fondateur (page Mission) n'ont **pas de photo**,
+  à la demande du client. Ne pas les réintroduire sans demande.
 
 ## Vérification avant intégration
 

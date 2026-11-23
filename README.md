@@ -55,10 +55,9 @@ images. Aucun PHP, aucune base de données. C'est ce dossier, et lui seul, qui e
 ### 2.1 Contenu
 
 - [ ] Relire chaque page à 360 px et à 1440 px, avec les animations réduites activées.
-- [ ] Rechercher les `TODO` restants (`git grep TODO`) : horaires, mentions légales, réseaux sociaux,
-      photo du fondateur. Les laisser visibles plutôt qu'inventer une information.
+- [ ] Rechercher les `TODO` restants (`git grep TODO`) : horaires, mentions légales, réseaux sociaux.
+      Les laisser visibles plutôt qu'inventer une information.
 - [ ] Photos présentes dans `public/images/hero/` et `public/images/pages/`, en `.webp` de moins de 300 Ko.
-      Manque encore : `pages/application.webp` et la **vraie** photo `pages/fondateur.jpg`.
 - [ ] `public/og-image.png` (1200 × 630) à jour : c'est l'aperçu affiché quand on partage le lien sur WhatsApp.
 - [ ] Mentions légales complètes (statut, adresse, responsable de publication, hébergeur :
       Hostinger International Ltd).
