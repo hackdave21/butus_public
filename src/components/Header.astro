@@ -25,8 +25,7 @@ const isActive = (href: string) => norm(href) === current;
     </nav>
 
     <div class="flex items-center gap-3">
-      <span class="hidden sm:inline-flex items-center gap-2 rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
-        <span class="pulse-dot" aria-hidden="true"></span>
+      <span class="hidden sm:inline-flex items-center rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
         App bientôt disponible
       </span>
       <button
@@ -55,8 +54,8 @@ const isActive = (href: string) => norm(href) === current;
           </li>
         ))}
       </ul>
-      <p class="mt-6 inline-flex items-center gap-2 rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
-        <span class="pulse-dot" aria-hidden="true"></span>App bientôt disponible
+      <p class="mt-6 inline-flex items-center rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
+        App bientôt disponible
       </p>
     </nav>
   </div>
@@ -70,13 +69,6 @@ const isActive = (href: string) => norm(href) === current;
   :global([data-header].is-scrolled) [data-header-bar] { height: 60px; }
   :global([data-header].is-scrolled) { box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.45); }
 
-  .pulse-dot { position: relative; width: 8px; height: 8px; border-radius: 999px; background: var(--color-forest); }
-  .pulse-dot::after {
-    content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--color-forest);
-    animation: pulse 1.8s ease-out infinite;
-  }
-  @keyframes pulse { to { transform: scale(2.6); opacity: 0; } }
-
   .burger { position: relative; display: block; width: 20px; height: 12px; }
   .burger span { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: #fff; transition: transform 0.3s var(--ease-out), top 0.3s var(--ease-out); }
   .burger span:first-child { top: 0; }
@@ -88,6 +80,6 @@ const isActive = (href: string) => norm(href) === current;
   @keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .pulse-dot::after, .menu-panel .mobile-link { animation: none !important; }
+    .menu-panel .mobile-link { animation: none !important; }
   }
 </style>

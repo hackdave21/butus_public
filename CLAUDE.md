@@ -90,8 +90,8 @@ Retour client : le site doit être **attrayant et animé**, pas trop simple. Ani
   **Pas** d'effet piloté par le scroll dans le hero.
 - **Pages intérieures** : en-tête `PageHero.astro` (fil d'Ariane, titre, photo).
 - **Apparitions au scroll** : attribut `data-reveal` (`""`, `left`, `right`, `zoom`) + délai `--d`, géré par `src/scripts/ui.ts`.
-- **Bandeaux défilants** : catégories (2 lignes en sens opposés) et bandeau vert du footer.
-- **Boucle de l'économie circulaire** (`Loop.astro`) : anneau qui tourne, tracé qui se dessine, piliers qui apparaissent.
+- **Bandeau défilant** : catégories uniquement (2 lignes en sens opposés). Pas de bandeau de mots dans le footer (retiré à la demande du client).
+- **Pas de boucle animée** ni de point vert devant les surtitres (`.kicker`) ou devant « App bientôt disponible » (retirés à la demande du client).
 - **Micro-interactions** : cartes qui s'élèvent (`.lift`), icônes qui pivotent, flèches qui glissent, téléphones qui flottent.
 - **Transitions entre pages** : Astro View Transitions (`ClientRouter`).
 - **Navigation** : l'onglet de la page active est en pastille verte (desktop) ou en bloc vert (menu mobile).
@@ -108,8 +108,8 @@ de remplacement aux couleurs de la charte. La photo du fondateur doit être une 
 Chaque entrée du menu a **sa propre page** (retour client : pas de site monopage).
 
 ```
-/                    Accueil : carrousel, qui sommes-nous + boucle, 5 piliers, parcours de l'app, publics, catégories, appel à contact
-/mission             Mission : constat, économie circulaire (boucle), valeurs, fondateur, vision
+/                    Accueil : carrousel, qui sommes-nous, 5 piliers, parcours de l'app, publics, catégories, appel à contact
+/mission             Mission : constat, économie circulaire, valeurs, fondateur, vision
 /ce-que-fait-butus   Les 5 piliers détaillés (ancres #vendre…), parcours, états des objets, publics, engagements, catégories
 /application         Fonctionnalités, parcours, galerie d'écrans, publics, feuille de route (sans dates), FAQ
 /contact             Canaux (e-mail, téléphone, WhatsApp), raisons de nous écrire (mailto avec objet prérempli),
@@ -146,7 +146,7 @@ butus_public/
    ├─ scripts/ui.ts         apparitions, en-tête, menu mobile, carrousel, étapes, haut de page
    ├─ styles/global.css     tokens charte + utilitaires d'animation
    ├─ layouts/Base.astro    SEO, OG, JSON-LD, Header, Footer, transitions
-   ├─ components/           Header, Footer, HeroSlider, PageHero, Visual, Loop, Pillars, AppTeaser,
+   ├─ components/           Header, Footer, HeroSlider, PageHero, Visual, Pillars, AppTeaser,
    │                        Audience, Trust, CategoriesMarquee, CtaBand, Faq, Phone, PhoneScreens, Logo
    └─ pages/                index, mission, ce-que-fait-butus, application, contact, mentions-legales, 404
 ```

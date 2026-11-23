@@ -91,13 +91,6 @@
     font-size: var(--text-step--1);
     font-weight: 600;
   }
-  .kicker::before {
-    content: "";
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 999px;
-    background: var(--color-green);
-  }
 
   /* Boutons-liens */
   .btn {

@@ -2,24 +2,8 @@
 import { nav, contact, pillars } from '../data/site';
 const year = new Date().getFullYear();
 const socials = contact.socials.filter((s) => s.href);
-const phrases = ['Donner une seconde vie aux objets', 'Économie circulaire au Togo', "L'application arrive bientôt", 'Vendre, acheter, réutiliser, réparer, valoriser'];
 ---
 <footer class="relative overflow-hidden bg-forest text-white">
-  <!-- Bandeau défilant -->
-  <div class="marquee border-b border-white/10 bg-green py-4 text-black" style="--speed:45s" aria-hidden="true">
-    <div class="marquee-track">
-      {[0, 1].map(() => (
-        <div class="flex shrink-0 items-center">
-          {phrases.map((p) => (
-            <span class="flex items-center gap-6 px-6 text-[1.125rem] font-bold uppercase whitespace-nowrap">
-              {p}<span class="text-[0.7rem]">●</span>
-            </span>
-          ))}
-        </div>
-      ))}
-    </div>
-  </div>
-
   <div class="wrap relative z-10 pt-16 md:pt-20">
     <!-- Appel à contact -->
     <div class="grid gap-8 border-b border-white/10 pb-14 md:grid-cols-[1.4fr_1fr] md:items-end">

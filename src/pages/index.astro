@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import HeroSlider from '../components/HeroSlider.astro';
-import Loop from '../components/Loop.astro';
 import Pillars from '../components/Pillars.astro';
 import AppTeaser from '../components/AppTeaser.astro';
 import Audience from '../components/Audience.astro';
@@ -12,7 +11,7 @@ import CtaBand from '../components/CtaBand.astro';
   <HeroSlider />
 
   <section class="section" aria-labelledby="intro-title">
-    <div class="wrap grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+    <div class="wrap">
       <div>
         <div data-reveal>
           <p class="kicker">Qui sommes-nous</p>
@@ -29,9 +28,6 @@ import CtaBand from '../components/CtaBand.astro';
           <a href="/mission" class="btn btn-dark">Notre mission</a>
           <a href="/contact" class="btn btn-outline">Nous contacter</a>
         </div>
-      </div>
-      <div data-reveal="zoom">
-        <Loop />
       </div>
     </div>
   </section>

@@ -1,100 +1,137 @@
-# Prompts des photos des heros — BUTUS
+# Prompts de génération — Héros BUTUS (proposition)
 
-Chaque photo apparaît automatiquement sur le site dès qu'elle est déposée au bon endroit, avec le bon nom.
-Formats acceptés : `.jpg`, `.png`, `.webp` ou `.avif`. Tant qu'une photo manque, un visuel de remplacement
-vert ou jaune s'affiche.
+## Direction proposée
 
-## Règles communes (à garder pour toutes les images)
+Pour que le carrousel tienne ensemble, je propose **une même journée à Lomé, en cinq lumières** :
+le petit matin pour « donner une seconde vie », le plein soleil pour « vendre », la lumière douce
+d'après-midi pour « acheter », le soleil couchant pour « être livré », et la tombée du jour pour
+l'application. Le fil rouge n'est pas un personnage unique, mais **le geste** : tenir, photographier,
+examiner, transmettre, regarder. Cinq actions simples, cinq moments, une seule promesse.
 
-- **Format** : paysage **4:3**, au moins **1600 × 1200 px**. Exporter en `.webp` ou `.jpg` qualité 80, sous 300 Ko (le site doit rester léger).
-- **Cadrage** : sujet principal **au centre**, avec de la marge sur les côtés. Sur mobile, l'image est recadrée en bandeau horizontal.
-- **Style** : photo réaliste et naturelle, lumière du jour chaude, Lomé (Togo), personnes togolaises, ambiance positive et authentique.
-- **Couleurs** : touches de vert foncé `#173A34`, vert vif `#24B158` et jaune `#F2A900` (vêtements, objets, murs), pour s'accorder à la charte.
-- **Interdits** : pas de texte, pas de logo, pas de filigrane, pas de marque visible sur les objets, pas d'interface d'application inventée sur les écrans.
+Chaque image s'insère dans un bloc de texte coloré (`forest`, `yellow`, `green`). La photo occupe
+la moitié droite du hero sur desktop et un bandeau sur mobile ; elle doit donc rester lisible
+même fortement recadrée.
 
-Le bloc à ajouter à la fin de chaque prompt :
+## Format hero — contraintes communes
+
+- **Ratio 4:3**, au moins 1600 × 1200 px. Le sujet reste dans le tiers central, avec de l'air
+  à gauche et à droite (recadrage mobile).
+- Export `.webp` qualité 80 (ou `.jpg`), **< 300 Ko**. Noms de fichiers exacts indiqués ci-dessous
+  (`src/lib/images.ts` essaie `.webp`, `.avif`, `.jpg`, `.jpeg`, `.png`).
+- Photo réaliste, lumière naturelle, Lomé (Togo), personnes togolaises, expressions sincères.
+- Palette maîtrisée : vert foncé `#173A34`, vert vif `#24B158`, jaune `#F2A900` — en accents dans
+  les vêtements, les murs ou les objets, jamais en filtre coloré global.
+- **Aucun texte, aucun logo, aucune marque, aucun filigrane, aucune interface d'application**
+  sur les écrans de téléphone.
+- Si l'outil demande un paramètre de ratio : `--ar 4:3` (Midjourney) ou équivalent.
+
+## Structure d'un prompt
+
+Chaque prompt suit le même ordre, ce qui rend les résultats comparables :
+**sujet + action → décor → lumière → palette → cadrage**. La queue commune est ajoutée à la fin.
 
 ```
-photorealistic, natural daylight, warm tones, shot on 35mm, shallow depth of field, authentic West African setting in Lomé, Togo, subtle accents of deep forest green (#173A34), bright green (#24B158) and golden yellow (#F2A900), clean uncluttered composition, subject centered, 4:3 landscape, no text, no logo, no watermark, no brand names
+editorial photorealism, authentic Lomé Togo setting, Togolese people, natural daylight, warm honest color grading, restrained accents of #173A34, #24B158 and #F2A900, center-weighted composition with clean margins on both sides, 4:3 landscape, no text, no logo, no watermark, no brand names, no app interface
 ```
 
 ---
 
-## Accueil : carrousel (`public/images/hero/`)
+## Carrousel d'accueil — `public/images/hero/`
 
-### 1. `accueil-1.jpg` : « Donnez une seconde vie à vos objets »
-```
-A smiling young Togolese woman in her twenties holding a second-hand smartphone in both hands, standing in a lively open-air market in Lomé, colorful stalls softly blurred behind her, she wears a deep green wax-print top with yellow patterns, joyful and confident expression, medium shot
-```
-+ bloc commun
+### 1. `accueil-1.webp` — « Donnez une seconde vie à vos objets » · fond forest
 
-### 2. `accueil-2.jpg` : « Vendez ce qui ne vous sert plus »
-```
-A Togolese man in his thirties crouching in a bright, simple living room, taking a photo with his smartphone of a solid wooden chair he wants to sell, a few other household items neatly arranged nearby, yellow painted wall in the background, focused and pleased expression, medium-wide shot
-```
-+ bloc commun
+Intention : l'objet a encore de la valeur ; le regard de la femme le dit avant le texte.
 
-### 3. `accueil-3.jpg` : « Achetez malin, achetez d'occasion »
 ```
-A Togolese woman in her forties carefully examining a refurbished laptop in a tidy small second-hand shop in Lomé, shelves with neatly sorted used electronics, books and shoes behind her, the friendly shop owner smiling in the soft-focus background, green shelving, satisfied expression, medium shot
+Young Togolese woman in her twenties seated at a market stall in Lomé, holding an old but well-kept smartphone up to the light and smiling at it, folded wax-print cloth and a few used objects neatly arranged on the table, soft blurred canopy above, gentle early morning light, medium portrait, warm confident expression
 ```
-+ bloc commun
 
-### 4. `accueil-4.jpg` : « Livré chez vous, en toute confiance »
-```
-A Togolese delivery rider on a motorbike, wearing a plain bright green vest and a helmet, handing a neatly wrapped parcel to a smiling young woman at the gate of her house in a residential street of Lomé, late afternoon golden light, both smiling, medium-wide shot
-```
-+ bloc commun
+### 2. `accueil-2.webp` — « Vendez ce qui ne vous sert plus » · fond jaune
 
-### 5. `accueil-5.jpg` : « L'application BUTUS arrive bientôt »
-```
-Close-up of a young Togolese person's hands holding a modern smartphone, the screen is plain solid bright green with no text and no interface, blurred warm street scene of Lomé in the background, a yellow sleeve visible, optimistic and modern mood
-```
-+ bloc commun
-> Écran volontairement vide : vous pourrez y incruster une vraie capture de l'application plus tard.
+Intention : montrer que publier un objet est un geste simple, presque domestique.
 
----
+```
+Togolese man in his thirties in a plain yellow short-sleeve shirt, squatting on the step of his compound in Lomé, taking a photo of a solid wooden chair with his phone held sideways, a small stack of folded clothes beside him, clean white wall behind, bright midday sun with soft shadows, three-quarter wide shot, focused and pleased expression
+```
 
-## Pages intérieures (`public/images/pages/`)
+### 3. `accueil-3.webp` — « Achetez malin, achetez d'occasion » · fond vert
 
-### 6. `mission.jpg` : page Mission, « Donner une seconde vie aux objets »
-```
-Close-up of two pairs of Togolese hands exchanging a used but well-kept object (a small radio) in a busy Lomé market, faces partly out of frame, warm and trusting gesture, colorful fabrics and goods softly blurred around, green and yellow tones
-```
-+ bloc commun
+Intention : la confiance passe par le soin apporté aux objets et au tri.
 
-### 7. `ce-que-fait-butus.jpg` : page Ce que fait BUTUS
 ```
-Interior of a bright, well-organized second-hand shop in Lomé, wooden shelves with neatly sorted used phones, laptops, shoes, books and small furniture, a Togolese shopkeeper arranging items with care, a yellow accent wall and green shelves, inviting and orderly atmosphere, wide shot
+Togolese woman in her forties wearing a deep green headwrap, testing the keyboard of a refurbished laptop on the counter of a tidy second-hand shop in Lomé, shelves of sorted phones and books behind her, shopkeeper smiling in soft focus, soft late-afternoon window light, medium shot, satisfied and attentive expression
 ```
-+ bloc commun
 
-### 8. `application.jpg` : page L'application
-```
-A young Togolese man sitting on a low wall in a sunny street of Lomé, smiling while scrolling on his smartphone, the screen faces away from the camera, wearing a deep green t-shirt, yellow motorbike-taxi softly blurred in the background, relaxed and modern mood, medium shot
-```
-+ bloc commun
+### 4. `accueil-4.webp` — « Livré chez vous, en toute confiance » · fond forest
 
-### 9. `contact.jpg` : page Contact
+Intention : la livraison est un service humain, pas une abstraction logistique.
+
 ```
-A friendly Togolese woman in her thirties wearing a headset, smiling while talking on the phone at a clean desk in a bright modern office in Lomé, laptop open, a green plant and a yellow notebook on the desk, welcoming customer-service atmosphere, medium shot
+Togolese delivery rider in a plain bright green vest and helmet, crouching at the gate of a Lomé house to place a plain kraft paper parcel within reach of a young woman leaning out of her doorway, motorbike parked at the edge of the frame, late afternoon golden light, medium-wide shot, both smiling
 ```
-+ bloc commun
+
+### 5. `accueil-5.webp` — « L'application BUTUS arrive bientôt » · fond jaune
+
+Intention : faire envie sans promettre une interface qui n'existe pas encore.
+
+```
+Close-up of young Togolese hands holding a smartphone at chest height on a Lomé street at dusk, the screen glowing a flat deep forest green with no icons and no text, yellow wax-print sleeve, blurred warm stalls lights behind, optimistic modern mood, tight crop on hands and phone
+```
+
+> L'écran reste volontairement neutre : une vraie capture sera incrustée plus tard.
 
 ---
 
-## À ne pas générer
+## En-têtes de pages — `public/images/pages/`
 
-- `public/images/pages/fondateur.jpg` : **vraie photo** de Gedeon Essodonn BATAWOLO (portrait, format 4:5 ou 4:3).
-  Une image générée d'une personne réelle serait trompeuse.
+Même queue commune, même ratio 4:3. Ces quatre photos sont chargées en `eager` par `PageHero.astro`.
 
-## Rappel des emplacements
+### 6. `mission.webp` — « Donner une seconde vie aux objets »
 
-| Fichier | Où il apparaît |
+```
+Two pairs of Togolese hands passing a small used radio across a crowded Lomé market table at first light, faces out of frame, careful trusting gesture, colorful cloth and goods softly blurred around, green and yellow accents in the fabrics, close-up on the exchange
+```
+
+### 7. `ce-que-fait-butus.webp` — « Ce que fait BUTUS »
+
+```
+Wide interior shot of a bright Lomé second-hand boutique, wooden shelves with neatly sorted phones, laptops, shoes and books, a small wooden chair in the corner, Togolese shopkeeper arranging items with care, yellow accent wall and forest green shelving, calm orderly atmosphere, natural daylight from the entrance
+```
+
+### 8. `application.webp` — « L'application »
+
+```
+Young Togolese man sitting on a low wall in a sunny Lomé street, smiling as he scrolls on his phone with the screen facing away from the camera, deep green t-shirt, yellow motorbike-taxi passing softly blurred behind, relaxed everyday mood, medium shot
+```
+
+### 9. `contact.webp` — « Contact »
+
+```
+Friendly Togolese woman in her thirties wearing a headset, smiling while speaking on the phone at a tidy desk in a bright Lomé office, laptop open, green plant and yellow notebook on the desk, light walls, welcoming service mood, medium shot
+```
+
+### 10. `pilier-vendre.webp` — bloc « Vendre » (accueil et Ce que fait BUTUS) · fond forest
+
+Même format que le hero : **4:3, 1600 × 1200 px**, `.webp` < 300 Ko, à déposer dans `public/images/pages/`.
+Tant qu'elle manque, le bloc affiche un visuel de remplacement aux couleurs de la charte.
+
+```
+Close-up of a Togolese woman's hands holding a smartphone sideways to photograph a pair of clean, well-kept used sneakers placed on a small wooden stool in a sunny Lomé courtyard, a folded wax-print cloth and a used radio waiting their turn beside the stool, plain white wall behind, soft morning light with gentle shadows, shallow depth of field, editorial photorealism, authentic Lomé Togo setting, Togolese people, natural daylight, warm honest color grading, restrained accents of #173A34, #24B158 and #F2A900, center-weighted composition with clean margins on both sides, 4:3 landscape, 1600x1200, no text, no logo, no watermark, no brand names, no app interface
+```
+
+---
+
+## Hors génération
+
+- `fondateur.jpg` : **vraie photo** de Gedeon Essodonn BATAWOLO. Aucune génération, aucun
+  « portrait plausible » : ce serait trompeur.
+
+## Vérification avant intégration
+
+| Contrôle | Attendu |
 |---|---|
-| `public/images/hero/accueil-1.jpg` à `accueil-5.jpg` | Carrousel de la page d'accueil |
-| `public/images/pages/mission.jpg` | En-tête de la page Mission |
-| `public/images/pages/ce-que-fait-butus.jpg` | En-tête de la page Ce que fait BUTUS |
-| `public/images/pages/application.jpg` | En-tête de la page L'application |
-| `public/images/pages/contact.jpg` | En-tête de la page Contact |
-| `public/images/pages/fondateur.jpg` | Bloc « Le fondateur » de la page Mission (vraie photo) |
+| Ratio / poids | 4:3, < 300 Ko, fichiers dans `public/images/hero/` et `public/images/pages/` |
+| Lisibilité mobile | sujet encore reconnaissant dans un bandeau de 256 px de haut |
+| Texte / marque | zéro mot, zéro logo, zéro écran d'app dessiné |
+| Contraste avec le bloc | photo claire sur fond `forest`, photo plus profonde sur fond `yellow`/`green` |
+| Reduced motion / Lighthouse | render vérifié à 360 px et 1440 px, puis Lighthouse mobile |

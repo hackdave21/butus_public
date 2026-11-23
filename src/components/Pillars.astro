@@ -1,5 +1,6 @@
 ---
 import { pillars } from '../data/site';
+import Visual from './Visual.astro';
 interface Props { detailed?: boolean; title?: string }
 const { detailed = false, title = 'Cinq façons de donner une seconde vie' } = Astro.props;
 const styles = [
@@ -37,6 +38,11 @@ const icons = [
           <span class="pillar-icon grid h-14 w-14 place-items-center rounded-2xl bg-current/10" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={icons[i]} /></svg>
           </span>
+          {i === 0 && (
+            <div class="pillar-photo relative -my-2 aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] sm:aspect-[16/9] md:aspect-auto md:min-h-[15rem] md:flex-1">
+              <Visual dir="pages" name="pilier-vendre" alt="Une personne photographie un objet d'occasion avec son téléphone pour le mettre en vente." class="md:absolute md:inset-0" />
+            </div>
+          )}
           <div>
             <h3 class:list={['uppercase', i === 0 ? 'text-[clamp(2rem,4vw,3.25rem)] font-black' : 'text-[1.625rem] font-black']}>{p.verbe}</h3>
             <p class:list={['mt-3 max-w-[40ch]', i === 0 && 'lead']}>{detailed ? p.long : p.court}</p>
@@ -50,8 +56,12 @@ const icons = [
 <style>
   .pillar-icon { transition: transform 0.5s var(--ease-out); }
   .pillar-card:hover .pillar-icon { transform: rotate(-8deg) scale(1.08); }
+  .pillar-photo .visual { transition: transform 0.8s var(--ease-out); }
+  .pillar-card:hover .pillar-photo .visual { transform: scale(1.04); }
   @media (prefers-reduced-motion: reduce) {
     .pillar-icon { transition: none; }
     .pillar-card:hover .pillar-icon { transform: none; }
+    .pillar-photo .visual { transition: none; }
+    .pillar-card:hover .pillar-photo .visual { transform: none; }
   }
 </style>

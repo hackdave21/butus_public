@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import Loop from '../components/Loop.astro';
 import Visual from '../components/Visual.astro';
 import CtaBand from '../components/CtaBand.astro';
 
@@ -48,11 +47,8 @@ const valeurs = [
 
   <!-- La boucle -->
   <section class="section bg-forest text-white" aria-labelledby="boucle-title">
-    <div class="wrap grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-      <div class="rounded-[32px] bg-white p-6 md:p-10" data-reveal="zoom">
-        <Loop />
-      </div>
-      <div>
+    <div class="wrap">
+      <div class="prose-width">
         <div data-reveal>
           <p class="kicker text-white/75">L'économie circulaire</p>
           <h2 id="boucle-title" class="mt-3">Une boucle plutôt qu'une poubelle</h2>
