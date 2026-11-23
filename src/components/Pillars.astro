@@ -1,0 +1,57 @@
+---
+import { pillars } from '../data/site';
+interface Props { detailed?: boolean; title?: string }
+const { detailed = false, title = 'Cinq façons de donner une seconde vie' } = Astro.props;
+const styles = [
+  'md:col-span-4 md:row-span-2 bg-forest text-white',
+  'md:col-span-2 bg-yellow text-black',
+  'md:col-span-2 bg-green text-black',
+  'md:col-span-3 bg-mist text-forest',
+  'md:col-span-3 bg-black text-white',
+];
+const icons = [
+  // vendre : étiquette
+  'M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9zM7.5 7.5h.01',
+  // acheter : sac
+  'M6 7h12l-1 13H7L6 7zM9 7a3 3 0 0 1 6 0',
+  // réutiliser : boucle
+  'M4 12a8 8 0 0 1 14-5.3M20 4v4h-4M20 12a8 8 0 0 1-14 5.3M4 20v-4h4',
+  // réparer : clé
+  'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5 2.5-2.5z',
+  // valoriser : étoile
+  'M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z',
+];
+---
+<section id="piliers" class="section" aria-labelledby="pillars-title">
+  <div class="wrap">
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div data-reveal>
+        <p class="kicker">Ce que fait BUTUS</p>
+        <h2 id="pillars-title" class="mt-3 max-w-2xl">{title}</h2>
+      </div>
+      {!detailed && <a href="/ce-que-fait-butus" class="btn btn-dark self-start md:self-auto" data-reveal>Voir le détail</a>}
+    </div>
+    <div class="mt-10 grid gap-3 md:mt-12 md:grid-cols-6 md:gap-4 md:auto-rows-[minmax(12rem,auto)]">
+      {pillars.map((p, i) => (
+        <article id={detailed ? p.id : undefined} class:list={['pillar-card lift block-lg flex scroll-mt-28 flex-col justify-between gap-8 p-7 md:p-8', styles[i]]} data-reveal style={`--d:${i * 80}ms`}>
+          <span class="pillar-icon grid h-14 w-14 place-items-center rounded-2xl bg-current/10" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={icons[i]} /></svg>
+          </span>
+          <div>
+            <h3 class:list={['uppercase', i === 0 ? 'text-[clamp(2rem,4vw,3.25rem)] font-black' : 'text-[1.625rem] font-black']}>{p.verbe}</h3>
+            <p class:list={['mt-3 max-w-[40ch]', i === 0 && 'lead']}>{detailed ? p.long : p.court}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pillar-icon { transition: transform 0.5s var(--ease-out); }
+  .pillar-card:hover .pillar-icon { transform: rotate(-8deg) scale(1.08); }
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-icon { transition: none; }
+    .pillar-card:hover .pillar-icon { transform: none; }
+  }
+</style>

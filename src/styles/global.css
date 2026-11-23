@@ -1,0 +1,170 @@
+@import "tailwindcss";
+@import "@fontsource-variable/roboto";
+@import "@fontsource-variable/bricolage-grotesque/standard.css";
+
+/* Tokens de la charte BUTUS — ne pas ajouter de couleur de marque */
+@theme {
+  --color-forest: #173A34;
+  --color-green: #24B158;
+  --color-yellow: #F2A900;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-mist: #EEF3F1;       /* surface neutre dérivée du forest */
+  --color-forest-soft: #1F4A42;
+  --color-forest-deep: #102B26;
+
+  --font-sans: "Roboto Variable", Roboto, system-ui, sans-serif;
+  /* Titres : Bricolage Grotesque (le logo et le texte courant restent en Roboto, charte) */
+  --font-display: "Bricolage Grotesque Variable", "Roboto Variable", system-ui, sans-serif;
+
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --radius-pill: 999px;
+
+  /* Échelle typographique resserrée (base 17px) */
+  --text-step--1: 0.875rem;
+  --text-step-0: 1.0625rem;
+  --text-step-1: 1.25rem;
+  --text-step-2: clamp(1.375rem, 1vw + 1rem, 1.625rem);
+  --text-step-3: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  --text-step-4: clamp(2rem, 3vw + 1rem, 3.5rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-white);
+    color: var(--color-forest);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-size: var(--text-step-0);
+    line-height: 1.65;
+    overflow-x: clip;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 90%;
+    font-optical-sizing: auto;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  h1 { font-size: var(--text-step-4); text-transform: uppercase; }
+  h2 { font-size: var(--text-step-3); text-transform: uppercase; }
+  h3 { font-size: var(--text-step-2); }
+  p { text-wrap: pretty; }
+  :focus-visible {
+    outline: 3px solid var(--color-yellow);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .wrap { padding-inline: 2rem; }
+  }
+  .prose-width { max-width: 36rem; }
+  .block-lg { border-radius: var(--radius-lg); }
+  .block-md { border-radius: var(--radius-md); }
+  .lead { font-size: var(--text-step-1); line-height: 1.5; }
+  .section { padding-block: 4.5rem; }
+  @media (min-width: 768px) {
+    .section { padding-block: 6.5rem; }
+  }
+
+  /* Pastille de section (pas en majuscules, pas d'interlettrage forcé) */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-step--1);
+    font-weight: 600;
+  }
+  .kicker::before {
+    content: "";
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--color-green);
+  }
+
+  /* Boutons-liens */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 1.4rem;
+    font-weight: 700;
+    font-size: 0.975rem;
+    transition: transform 0.25s var(--ease-out), background-color 0.25s, color 0.25s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-yellow { background: var(--color-yellow); color: var(--color-black); }
+  .btn-yellow:hover { background: #ffbb1f; }
+  .btn-green { background: var(--color-green); color: var(--color-black); }
+  .btn-outline { border: 1.5px solid currentColor; }
+  .btn-outline:hover { background: var(--color-white); color: var(--color-forest); }
+  .btn-dark { background: var(--color-forest); color: var(--color-white); }
+  .btn-dark:hover { background: var(--color-black); }
+
+  /* Carte interactive : légère élévation au survol */
+  .lift { transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out); }
+  .lift:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -24px rgb(23 58 52 / 0.45); }
+}
+
+/* ---------- Animations ---------- */
+
+/* Apparition au scroll : activée seulement si JS présent (classe .js sur <html>) */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+.js [data-reveal="left"] { transform: translateX(-36px); }
+.js [data-reveal="right"] { transform: translateX(36px); }
+.js [data-reveal="zoom"] { transform: scale(0.94); }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* Bandeau défilant infini */
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { overflow: hidden; }
+.marquee-track { display: flex; width: max-content; animation: marquee var(--speed, 40s) linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Rotation lente (motif de la boucle) */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin 40s linear infinite; }
+
+/* Flottement doux (téléphones, badges) */
+@keyframes float { 50% { transform: translateY(-12px); } }
+.float { animation: float 6s ease-in-out infinite; }
+
+/* Tracé d'un trait SVG */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .marquee-track, .spin-slow, .float { animation: none; }
+  .btn, .lift { transition: none; }
+  .btn:hover, .lift:hover { transform: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* Hero large : presque bord à bord, petite marge régulière */
+@layer components {
+  /* Même écart (12 px) que sous le menu : haut, gauche et droite */
+  .hero-wide { width: 100%; padding-inline: 0.75rem; }
+}

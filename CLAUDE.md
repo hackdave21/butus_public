@@ -1,37 +1,38 @@
 # BUTUS — Site vitrine (butus.org)
 
-Ce dossier contient le site vitrine public de **BUTUS**. Il présente l'initiative et met en avant
-l'**application mobile BUTUS**, qui arrive bientôt. Ce fichier est la référence de conception : à lire
-avant toute modification.
+Ce dossier contient le site vitrine public de **BUTUS**. C'est un **site de présentation uniquement** :
+il présente BUTUS et **annonce l'application mobile à venir**. Ce fichier est la référence de conception :
+à lire avant toute modification.
+
+> ⛔ **Périmètre strict** : le site ne contient **aucune fonctionnalité**. Pas d'inscription, pas de
+> connexion, pas de liste d'attente, pas de formulaire, pas de vente, d'achat, de catalogue ni de
+> recherche de produits, pas de compte, pas de paiement. Toutes ces fonctions appartiennent à
+> l'application mobile. Le site les **décrit** seulement, il ne les **propose pas**.
 
 ---
 
 ## 1. Contexte
 
-**BUTUS** est une initiative togolaise d'**économie circulaire**. La plateforme aide les particuliers et
-les entreprises à donner une seconde vie aux objets : vente, achat, réutilisation, réparation et valorisation.
+**BUTUS** est une initiative togolaise d'**économie circulaire**. Elle aide les particuliers et les
+entreprises à donner une seconde vie aux objets : vente, achat, réutilisation, réparation et valorisation.
 
 - Signature : *« Donner une seconde vie aux objets et créer de nouvelles opportunités. »*
 - Fondateur & CEO : Gedeon Essodonn BATAWOLO
 - Contact public : butus.tg@gmail.com · +228 98 92 32 95
 - Domaine du site vitrine : **https://butus.org**
-- ⚠️ Le cahier des charges de l'app cite `https://butus.site`. Il faut décider : redirection 301 de
-  butus.site vers butus.org, ou rôles distincts. Ne pas mettre les deux URL dans le contenu tant que
-  ce n'est pas tranché.
+- ✅ Domaine officiel retenu : **butus.org**. Ne jamais mentionner `butus.site` dans le site.
 
-### Objectifs du site (par priorité)
-1. **Collecter des inscriptions à la liste d'attente** avant le lancement de l'app (KPI principal).
-2. **Pré-inscrire des boutiques et des livreurs** (l'offre doit être prête au lancement).
-3. Expliquer BUTUS et sa mission d'économie circulaire au Togo.
-4. Inspirer confiance : BUTUS sert d'intermédiaire, les boutiques sont vérifiées, les livraisons ont une preuve.
+### Objectifs du site
+1. **Faire connaître BUTUS** : qui nous sommes, notre mission d'économie circulaire au Togo.
+2. **Annoncer l'application mobile** : donner envie, montrer à quoi elle ressemble et ce qu'elle permettra.
+3. **Inspirer confiance** : une marque sérieuse, locale et engagée.
+4. **Permettre de nous joindre** par des liens simples, sans formulaire : e-mail (`mailto:`), téléphone
+   (`tel:`), WhatsApp (`https://wa.me/22898923295`) et réseaux sociaux.
 
 ### Publics
-| Public | Ce qu'il doit comprendre | CTA |
-|---|---|---|
-| Particulier (acheteur / vendeur) | Vendre ses objets et acheter d'occasion simplement, depuis son téléphone | Rejoindre la liste d'attente |
-| Boutique / commerçant | Une page Boutique, un catalogue, la gestion du stock et des commandes, de la visibilité | Pré-inscrire ma boutique |
-| Livreur | Recevoir des missions de livraison | Devenir livreur |
-| Partenaires / annonceurs / presse | Une vision et un impact | Nous contacter |
+Le grand public togolais (futurs utilisateurs), les commerçants et boutiques, les futurs livreurs, les
+partenaires, la presse et les institutions. Le site leur **explique** ce que l'app leur apportera. Il n'y a
+pas d'action à faire sur le site, à part nous contacter ou nous suivre.
 
 ---
 
@@ -44,180 +45,147 @@ Ton visuel : **moderne, épuré, minimaliste**. Le mot **BUTUS** doit avoir de l
 ```css
 :root {
   --butus-forest: #173A34;  /* vert profond : fonds principaux, header, footer */
-  --butus-green:  #24B158;  /* vert vif : accent, « B » du logo, CTA principaux */
+  --butus-green:  #24B158;  /* vert vif : accent, « B » du logo, éléments clés */
   --butus-white:  #FFFFFF;
-  --butus-yellow: #F2A900;  /* jaune : blocs de mise en avant, CTA secondaire, badges */
+  --butus-yellow: #F2A900;  /* jaune : blocs de mise en avant, badges */
   --butus-black:  #000000;  /* texte sur fond jaune, « B » du logo jaune */
 }
 ```
 - Couples autorisés : blanc sur forest, `#24B158` sur forest (titres seulement), noir sur jaune, forest sur blanc.
 - **Interdit** : blanc sur `#24B158` ou blanc sur `#F2A900` pour du texte courant (contraste insuffisant).
   Sur un fond vert ou jaune, mettre le texte en noir ou en forest.
-- Pas d'autres couleurs de marque. Les nuances (gris, teintes à 8–12 % d'opacité) servent seulement aux bordures et surfaces.
+- Pas d'autres couleurs de marque. Les nuances (gris, teintes à faible opacité) servent seulement aux bordures et surfaces.
 
 ### Logo
 Le mot `BUTUS` en Roboto Black ou Bold, sans icône. Deux variantes :
 - fond forest : « **B** » en `#24B158` et « UTUS » en blanc ;
 - fond jaune : « **B** » en noir et « UTUS » en blanc.
-Le logo est fourni en SVG inline (texte vectorisé), jamais en image matricielle.
+Le logo est fourni en SVG inline, jamais en image matricielle.
 
 ### Typographie
-- Police unique : **Roboto**, auto-hébergée (`@fontsource-variable/roboto`), avec `font-display: swap`.
-- Titres : **Bold/Black, MAJUSCULES**, interlettrage serré (`-0.02em`), taille fluide avec `clamp()`.
-- Sous-titres : Regular, en minuscules ou capitales.
-- Texte courant : Regular, 16–18 px, interligne 1.6.
-- Le hero peut afficher « BUTUS » en très grand (jusqu'à 20–28 vw sur desktop) pour donner de l'impact.
+- **Logo et texte courant : Roboto** (charte), auto-hébergée (`@fontsource-variable/roboto`).
+- **Titres : Bricolage Grotesque** (`@fontsource-variable/bricolage-grotesque`), choisie par le client pour
+  donner plus de caractère : chaleureuse, humaine, en accord avec la seconde main. Graisse 800,
+  `font-stretch: 90%`, interlettrage -0.025em, MAJUSCULES pour h1/h2.
+  Appliquée automatiquement aux `h1`, `h2`, `h3`, et via la classe `.font-display` pour les autres titres.
+  Ne jamais l'utiliser pour le logo BUTUS ni pour le texte courant.
+- Tailles **modérées** (retour client : les titres trop grands sont laids). Échelle dans `global.css` :
+  `--text-step-4` (h1, max 3.5rem), `--text-step-3` (h2, max 2.5rem), `--text-step-2` (h3).
+- Texte courant : Regular, 17 px, interligne 1.65.
 
 ### Formes
-- Rayons : `--radius-lg: 40px` (grands blocs), `--radius-md: 24px` (cartes), `--radius-pill: 999px` (boutons, pastilles de couleur).
+- Rayons : `--radius-lg: 32px` (grands blocs), `--radius-md: 20px` (cartes), `--radius-pill: 999px` (boutons, badges).
 - Mise en page en **bento** (grilles de blocs colorés), reprenant directement la composition de la charte.
 
 ---
 
-## 3. Direction artistique : « captivant mais minimaliste »
+## 3. Direction artistique : vivante et animée
 
-L'effet « wow » vient du **mouvement, de l'échelle et du contraste**, pas de l'accumulation d'éléments.
+Retour client : le site doit être **attrayant et animé**, pas trop simple. Animations légères en CSS
+(aucune bibliothèque JS d'animation), toutes désactivées avec `prefers-reduced-motion`.
 
-- **Hero cinétique** : « BUTUS » géant qui s'assemble lettre par lettre au chargement. Un mockup de téléphone
-  avec l'écran d'accueil de l'app glisse depuis le bas.
-- **Thème de la boucle / seconde vie** : un motif circulaire (flèche qui boucle) relie les sections au scroll
-  et symbolise l'économie circulaire. SVG animé avec stroke-dashoffset.
-- **Blocs bento qui se révèlent** au scroll (fade et translation légère, décalage de 60–80 ms entre blocs).
-- **Mockups d'écrans de l'app** dans un téléphone, qui changent au scroll (section épinglée) : Accueil →
-  Fiche produit → Messagerie BUTUS → Suivi de livraison.
-- **Bandeau défilant** des catégories (Téléphones, Ordinateurs, Meubles, Vêtements, Livres…).
-- **Micro-interactions** : boutons qui « rebondissent » légèrement, compteur de la liste d'attente.
-- Toujours respecter `prefers-reduced-motion` : toutes les animations sont désactivées ou réduites à un fondu.
+- **Hero d'accueil = carrousel horizontal automatique** (`HeroSlider.astro`) : 5 diapositives, 6 s chacune,
+  glissement horizontal, barres de progression, boutons précédent / pause / suivant, glisser au doigt.
+  Pause au survol, au focus et quand l'onglet est caché. Zoom lent de la photo active, entrée du texte en cascade.
+  **Pas** d'effet piloté par le scroll dans le hero.
+- **Pages intérieures** : en-tête `PageHero.astro` (fil d'Ariane, titre, photo).
+- **Apparitions au scroll** : attribut `data-reveal` (`""`, `left`, `right`, `zoom`) + délai `--d`, géré par `src/scripts/ui.ts`.
+- **Bandeaux défilants** : catégories (2 lignes en sens opposés) et bandeau vert du footer.
+- **Boucle de l'économie circulaire** (`Loop.astro`) : anneau qui tourne, tracé qui se dessine, piliers qui apparaissent.
+- **Micro-interactions** : cartes qui s'élèvent (`.lift`), icônes qui pivotent, flèches qui glissent, téléphones qui flottent.
+- **Transitions entre pages** : Astro View Transitions (`ClientRouter`).
+- **Navigation** : l'onglet de la page active est en pastille verte (desktop) ou en bloc vert (menu mobile).
+- Étapes cliquables de l'application (Publier, Commander, Être livré) qui changent l'**aperçu statique** du téléphone.
 
-Photos : objets réels du quotidien togolais (téléphones, meubles, vêtements), cadrés serré sur fond uni
-vert ou jaune. Pas de banques d'images génériques. En attendant les vraies photos, utiliser des illustrations
-SVG simples aux couleurs de la charte.
+Photos : générées à partir des prompts de [`PROMPTS_IMAGES.md`](PROMPTS_IMAGES.md), déposées dans
+`public/images/hero/` et `public/images/pages/`. Tant qu'une photo manque, `Visual.astro` affiche un visuel
+de remplacement aux couleurs de la charte. La photo du fondateur doit être une **vraie** photo.
 
 ---
 
-## 4. Arborescence et sections
+## 4. Arborescence (site multipage)
 
-Site **one-page** + pages légales.
+Chaque entrée du menu a **sa propre page** (retour client : pas de site monopage).
 
 ```
-/                  Landing (sections ci-dessous)
-/boutiques         Page dédiée aux boutiques (pré-inscription détaillée)   [phase 2]
-/livreurs          Page dédiée aux livreurs                                [phase 2]
+/                    Accueil : carrousel, qui sommes-nous + boucle, 5 piliers, parcours de l'app, publics, catégories, appel à contact
+/mission             Mission : constat, économie circulaire (boucle), valeurs, fondateur, vision
+/ce-que-fait-butus   Les 5 piliers détaillés (ancres #vendre…), parcours, états des objets, publics, engagements, catégories
+/application         Fonctionnalités, parcours, galerie d'écrans, publics, feuille de route (sans dates), FAQ
+/contact             Canaux (e-mail, téléphone, WhatsApp), raisons de nous écrire (mailto avec objet prérempli),
+                     infos pratiques (ville, horaires TODO, langue, réseaux), FAQ
 /mentions-legales
-/confidentialite   (données de la liste d'attente)
 /404
 ```
-
-### Landing : ordre des sections
-1. **Header** (sticky, fond forest) : logo, ancres (Mission · Comment ça marche · Pour qui · L'app · FAQ), bouton jaune « Être prévenu ».
-2. **Hero** : « BUTUS » géant + accroche (*Donnez une seconde vie à vos objets.*) + sous-titre
-   (*Achetez, vendez et faites livrer, simplement, depuis votre téléphone. Bientôt au Togo.*) + formulaire
-   e-mail/téléphone en ligne + badge « Bientôt sur Android » (priorité Android, iOS ensuite) + mockup du téléphone.
-3. **Mission / économie circulaire** : bloc bento forest/vert. Pourquoi la seconde main, et l'impact local
-   (moins de déchets, plus de revenus). ⚠️ Aucun chiffre inventé : les statistiques sont des emplacements `TODO` à fournir par BUTUS.
-4. **Comment ça marche** (3 étapes, blocs numérotés) :
-   1. *Publiez* : photos, prix, état de l'objet.
-   2. *BUTUS vous met en relation* : l'acheteur commande, BUTUS fait l'intermédiaire avec le vendeur par la messagerie interne.
-   3. *Faites-vous livrer* : un livreur BUTUS récupère et livre, avec confirmation à la livraison.
-5. **Pour qui ?** : 3 cartes en couleur
-   - Particulier (blanc) : vendre ce qui ne sert plus, acheter malin.
-   - Boutique (jaune) : page Boutique, catalogue, stock, commandes, statistiques, badge vérifié.
-   - Livreur (forest) : missions, suivi, revenus.
-6. **L'app en avant-première** : section épinglée, téléphone + 4 écrans + puces de fonctionnalités
-   (recherche et filtres, état du produit clairement affiché, favoris, suivi de commande en temps réel, notifications).
-7. **La confiance d'abord** : BUTUS est l'intermédiaire (l'acheteur ne contacte pas le vendeur directement),
-   boutiques vérifiées, preuve de livraison (code, photo, signature), signalement des annonces.
-8. **Catégories** : bandeau défilant.
-9. **Feuille de route** : V1 (lancement) → plus tard (notation, paiement mobile intégré, suivi GPS des livreurs,
-   estimation de l'impact environnemental). Formuler comme une vision, sans promettre de dates.
-10. **Rejoindre** : grand bloc jaune avec 3 onglets de formulaire (Particulier / Boutique / Livreur).
-11. **FAQ** (accordéon) : Quand sort l'app ? Est-ce gratuit ? Comment vendre ? Comment marche la livraison ?
-    Quelles villes ? Comment payer ? Les réponses non tranchées sont signalées `TODO` pour validation par BUTUS.
-12. **Footer** (forest) : logo, signature, contact, réseaux sociaux (`TODO` liens), pages légales.
-
-### Formulaires de la liste d'attente
-- Particulier : prénom, téléphone **ou** e-mail, ville.
-- Boutique : nom de la boutique, responsable, téléphone, catégorie d'activité, ville.
-- Livreur : nom, téléphone, zone, moyen de transport.
-- Consentement explicite et lien vers `/confidentialite`. Honeypot anti-spam, pas de CAPTCHA intrusif.
-- Le téléphone au format `+228` est privilégié : c'est le canal principal au Togo. L'e-mail est facultatif.
+Aucun formulaire, même sur la page Contact : uniquement des liens directs.
+Aucune donnée personnelle n'est collectée, donc pas de bannière cookies (si les statistiques restent sans cookies).
 
 ---
 
 ## 5. Contraintes techniques
 
-### Performance (non négociable : public mobile, réseaux 3G/4G, smartphones d'entrée de gamme)
-- Lighthouse mobile ≥ 95 (Performance, Accessibilité, Bonnes pratiques, SEO).
-- Poids de la première page < 500 Ko transférés, JS < 100 Ko gzip.
-- Images en AVIF/WebP, `srcset` responsive, lazy-loading sous la ligne de flottaison.
-- Animations lancées seulement après le chargement, jamais bloquantes. LCP < 2,5 s en 4G lente.
+### Performance (public mobile, réseaux 3G/4G, smartphones d'entrée de gamme)
+- Lighthouse mobile ≥ 95 sur les 4 scores.
+- JS minimal (un seul script `ui.ts`, quelques Ko). Animations en CSS uniquement (transform / opacity).
+- Photos en WebP/JPG ≤ 300 Ko, lazy-loading hors première diapositive.
 
 ### Stack retenue
-- **Astro 5** (site statique, zéro JS par défaut, îlots seulement si nécessaire)
-- **Tailwind CSS 4** : tokens de la charte dans `@theme`
-- **GSAP + ScrollTrigger** pour les animations au scroll (chargé de façon différée). Variante légère : Motion One.
-- **Lenis** pour un défilement doux (optionnel, désactivé avec `reduced-motion`)
-- Polices : `@fontsource-variable/roboto`
-- Formulaires : endpoint serverless (Cloudflare Pages Functions ou Netlify Forms) vers Google Sheets, Brevo ou Supabase. À trancher.
-- Analytics respectueux de la vie privée : Plausible, Umami ou Cloudflare Web Analytics.
+- **Astro 5** en sortie 100 % statique, avec View Transitions. Pas de backend.
+- **Tailwind CSS 4** : tokens de la charte dans `@theme` (`src/styles/global.css`).
+- Polices : `@fontsource-variable/roboto` (logo, texte) et `@fontsource-variable/bricolage-grotesque` (titres).
+- Contenus partagés (menu, contact, piliers, diapositives) : `src/data/site.ts`.
 
 ### Structure du projet
 ```
 butus_public/
-├─ CLAUDE.md
-├─ astro.config.mjs
-├─ public/            favicon, og-image.png, robots.txt
+├─ CLAUDE.md, PROMPTS_IMAGES.md
+├─ public/            favicon, og-image.png, robots.txt, images/hero/, images/pages/
 └─ src/
-   ├─ styles/global.css     tokens charte + @theme Tailwind
-   ├─ components/
-   │  ├─ Logo.astro         (variant: forest | yellow)
-   │  ├─ Header.astro / Footer.astro
-   │  ├─ Hero.astro
-   │  ├─ BentoGrid.astro / BentoCard.astro
-   │  ├─ Steps.astro
-   │  ├─ Audience.astro
-   │  ├─ AppShowcase.astro  (téléphone + écrans épinglés)
-   │  ├─ Trust.astro / Marquee.astro / Roadmap.astro
-   │  ├─ WaitlistForm.astro (tabs Particulier/Boutique/Livreur)
-   │  └─ Faq.astro
-   ├─ content/        textes FAQ / roadmap (Markdown ou JSON)
-   ├─ assets/         mockups d'écrans, illustrations
-   ├─ layouts/Base.astro    SEO, OG, JSON-LD
-   └─ pages/          index, mentions-legales, confidentialite, 404
+   ├─ data/site.ts          menu, contact, catégories, piliers, diapositives
+   ├─ lib/images.ts         détection des photos présentes
+   ├─ scripts/ui.ts         apparitions, en-tête, menu mobile, carrousel, étapes, haut de page
+   ├─ styles/global.css     tokens charte + utilitaires d'animation
+   ├─ layouts/Base.astro    SEO, OG, JSON-LD, Header, Footer, transitions
+   ├─ components/           Header, Footer, HeroSlider, PageHero, Visual, Loop, Pillars, AppTeaser,
+   │                        Audience, Trust, CategoriesMarquee, CtaBand, Faq, Phone, PhoneScreens, Logo
+   └─ pages/                index, mission, ce-que-fait-butus, application, contact, mentions-legales, 404
 ```
 
 ### SEO et partage
-- Langue : `fr` (anglais éventuel plus tard). Titre : « BUTUS — Achetez et vendez d'occasion au Togo | App bientôt disponible ».
-- JSON-LD : `Organization` + `MobileApplication` (avec `operatingSystem: Android`).
-- Image Open Graph 1200×630 : « BUTUS » sur fond forest avec le téléphone. Indispensable, car le partage passe beaucoup par WhatsApp.
+- Langue : `fr`. Titre : « BUTUS — Seconde main et économie circulaire au Togo ».
+- JSON-LD : `Organization` (avec `contactPoint` et `sameAs` pour les réseaux sociaux).
+- Image Open Graph 1200×630 (`public/og-image.png`) : « BUTUS » sur fond forest. Indispensable pour le partage sur WhatsApp.
 - `sitemap.xml`, `robots.txt`, URL canonique `https://butus.org`.
 
 ### Accessibilité
-- WCAG 2.2 AA : contrastes vérifiés (voir les règles de couleurs), focus visible jaune, navigation au clavier, `alt` pour toutes les images.
-- Textes simples et courts : le public n'est pas forcément habitué aux applis de vente en ligne.
+- WCAG 2.2 AA : contrastes vérifiés, focus visible, navigation au clavier, `alt` sur toutes les images.
+- Textes simples et courts.
 
 ### Hébergement et déploiement
-- **Cloudflare Pages** recommandé (gratuit, CDN avec points de présence en Afrique, fonctions pour les formulaires).
-  Alternatives : Netlify ou Vercel.
+- Site statique : **Cloudflare Pages** recommandé (gratuit, CDN proche de l'Afrique de l'Ouest).
+  Alternatives : Netlify, Vercel ou GitHub Pages.
 - DNS de `butus.org` : CNAME vers l'hébergeur, HTTPS forcé, `www` → apex en 301.
-- Le compte d'hébergement doit appartenir à BUTUS et pas au compte personnel d'une seule personne (exigence du cahier des charges, §67).
+- Le compte d'hébergement doit appartenir à BUTUS et pas au compte personnel d'une seule personne.
 
 ---
 
 ## 6. Règles pour Claude dans ce dossier
 
-- Toujours respecter la charte (§2). Ne jamais introduire de nouvelle couleur de marque ni de nouvelle police.
-- Ne jamais inventer de chiffres, de témoignages, de logos partenaires ou de dates de lancement. Utiliser des emplacements `TODO:` visibles dans le code.
-- Ne pas exposer de coordonnées de boutiques ni de livreurs : le cahier des charges les réserve à BUTUS.
-- Rédiger le contenu en français simple, au vouvoiement, avec des phrases courtes.
+- **Ne jamais ajouter de formulaire, de champ de saisie, d'inscription, de connexion, de panier, de
+  catalogue ni de recherche de produits**, même « pour plus tard ». Le seul moyen de contact, ce sont
+  des liens directs (mailto, tel, WhatsApp, réseaux sociaux).
+- Parler de l'application **au futur** (« permettra », « bientôt »). Ne jamais laisser croire qu'on peut
+  déjà acheter ou vendre sur le site.
+- Toujours respecter la charte (§2). Ne jamais introduire de nouvelle couleur de marque ni de police autre que Roboto et Bricolage Grotesque.
+- Ne jamais inventer de chiffres, de témoignages, de logos partenaires ou de dates de lancement. Utiliser des emplacements `TODO:` visibles.
+- Rédiger en français simple, au vouvoiement, avec des phrases courtes.
 - Mobile-first : concevoir à 360 px d'abord, puis élargir.
-- Avant de considérer une section terminée : vérifier le rendu à 360 px et à 1440 px dans le navigateur, avec `reduced-motion` activé, puis lancer Lighthouse.
+- Avant de considérer une section terminée : vérifier le rendu à 360 px et à 1440 px, avec `reduced-motion` activé, puis lancer Lighthouse.
 - Utiliser le skill `frontend-design` pour toute création ou refonte d'interface.
 
 ## 7. Questions ouvertes (à valider avec BUTUS)
-- [ ] butus.site ou butus.org : redirection ou rôles distincts ?
-- [ ] Outil de stockage de la liste d'attente (Sheets, Brevo, Supabase) ?
-- [ ] Villes et zones couvertes au lancement (Lomé seulement ?)
 - [ ] Date ou période de lancement à afficher (ou seulement « bientôt »)
-- [ ] Liens des réseaux sociaux, photos réelles, captures de l'app (maquettes Figma ?)
+- [ ] Liens des réseaux sociaux ; le numéro WhatsApp est-il le même que le téléphone ?
+- [ ] Photos réelles et captures ou maquettes des écrans de l'app (Figma ?)
 - [ ] Statistiques d'impact à afficher
+- [ ] Informations légales pour les mentions légales (statut, adresse, responsable de publication)

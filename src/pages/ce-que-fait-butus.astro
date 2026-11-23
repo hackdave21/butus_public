@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Pillars from '../components/Pillars.astro';
+import AppTeaser from '../components/AppTeaser.astro';
+import Audience from '../components/Audience.astro';
+import Trust from '../components/Trust.astro';
+import CategoriesMarquee from '../components/CategoriesMarquee.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const etats = ['Neuf', 'Comme neuf', 'Très bon état', 'Bon état', 'État moyen', 'À réparer', 'Reconditionné'];
+---
+<Base title="Ce que fait BUTUS | BUTUS" description="Vendre, acheter, réutiliser, réparer, valoriser : découvrez comment BUTUS donne une seconde vie aux objets au Togo.">
+  <PageHero
+    kicker="Ce que fait BUTUS"
+    title="Vendre, acheter, réutiliser, réparer, valoriser"
+    lead="BUTUS accompagne les objets à chaque étape de leur seconde vie, avec une seule plateforme et une équipe qui fait le lien."
+    image="ce-que-fait-butus"
+    alt="Une boutique de seconde main lumineuse à Lomé, avec des étagères d'objets triés"
+    tone="yellow"
+  />
+
+  <Pillars detailed title="Cinq étapes pour une seconde vie" />
+  <AppTeaser />
+
+  <!-- États des objets -->
+  <section class="section" aria-labelledby="etats-title">
+    <div class="wrap grid items-center gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      <div data-reveal="left">
+        <p class="kicker">Transparence</p>
+        <h2 id="etats-title" class="mt-3">L'état de chaque objet, clairement indiqué</h2>
+        <p class="mt-5 prose-width text-forest/80">
+          Sur BUTUS, chaque annonce précise l'état de l'objet. Vous savez exactement ce que vous achetez,
+          que ce soit chez un particulier ou dans une boutique.
+        </p>
+      </div>
+      <ul class="flex flex-wrap gap-3">
+        {etats.map((e, i) => (
+          <li
+            class:list={['rounded-full px-5 py-3 text-[1.0625rem] font-bold', i === 6 ? 'bg-yellow text-black' : i === 5 ? 'bg-black text-white' : i < 2 ? 'bg-green text-black' : 'bg-mist text-forest']}
+            data-reveal="zoom"
+            style={`--d:${i * 70}ms`}
+          >{e}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Audience />
+  <Trust />
+  <CategoriesMarquee />
+  <CtaBand title="Vous êtes une boutique ou un livreur ?" text="Parlons de votre place sur BUTUS avant le lancement de l'application." />
+</Base>

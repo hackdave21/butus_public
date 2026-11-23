@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://butus.org/sitemap-index.xml

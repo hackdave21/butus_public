@@ -1,0 +1,38 @@
+---
+// Photo d'un hero, ou visuel de remplacement aux couleurs de la charte tant qu'elle n'est pas générée.
+import { findImage } from '../lib/images';
+interface Props {
+  dir: string;
+  name: string;
+  alt: string;
+  tone?: 'forest' | 'yellow' | 'green';
+  class?: string;
+  eager?: boolean;
+}
+const { dir, name, alt, tone = 'forest', class: cls = '', eager = false } = Astro.props;
+const src = findImage(dir, name);
+const tones = {
+  forest: 'bg-forest-soft text-green',
+  yellow: 'bg-[#f5bd33] text-black/20',
+  green: 'bg-[#2fc265] text-forest/25',
+};
+---
+{src ? (
+  <img
+    src={src}
+    alt={alt}
+    class:list={['visual h-full w-full object-cover', cls]}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={eager ? 'high' : 'auto'}
+  />
+) : (
+  <div class:list={['visual relative grid h-full w-full place-items-center overflow-hidden', tones[tone], cls]} role="img" aria-label={alt} data-placeholder={`${dir}/${name}`}>
+    <!-- TODO: photo à générer : public/images/{dir}/{name}.jpg (voir PROMPTS_IMAGES.md) -->
+    <svg class="spin-slow absolute h-[130%] w-[130%] opacity-40" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="10" stroke-dasharray="380 123" stroke-linecap="round" />
+      <path d="M168 62 l14 -2 l-4 14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <span class="relative text-[clamp(4rem,12vw,9rem)] font-black leading-none opacity-80">B</span>
+  </div>
+)}

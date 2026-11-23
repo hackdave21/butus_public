@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import { contact } from '../data/site';
+
+const canaux = [
+  {
+    titre: 'Par e-mail',
+    valeur: contact.email,
+    texte: 'Pour une demande détaillée, un partenariat ou la presse.',
+    href: `mailto:${contact.email}`,
+    action: 'Écrire un e-mail',
+    cls: 'bg-forest text-white',
+    btn: 'btn-yellow',
+    icon: 'M3 6h18v12H3zM3 7l9 6 9-6',
+  },
+  {
+    titre: 'Par téléphone',
+    valeur: contact.phone,
+    texte: 'Pour une question rapide, aux heures ouvrables.',
+    href: contact.phoneHref,
+    action: 'Appeler',
+    cls: 'bg-yellow text-black',
+    btn: 'btn-dark',
+    icon: 'M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2',
+  },
+  {
+    titre: 'Sur WhatsApp',
+    valeur: contact.phone,
+    texte: 'Le moyen le plus simple pour échanger avec notre équipe.',
+    href: contact.whatsapp,
+    action: 'Écrire sur WhatsApp',
+    cls: 'bg-green text-black',
+    btn: 'btn-dark',
+    icon: 'M4 20l1.3-4A8 8 0 1 1 8 18.7zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z',
+    external: true,
+  },
+];
+
+const raisons = [
+  { titre: 'Devenir partenaire', texte: 'Entreprises, associations, collectivités : construisons ensemble des projets d\'économie circulaire.', sujet: 'Partenariat' },
+  { titre: 'Inscrire ma boutique', texte: 'Vous êtes commerçant ou revendeur ? Préparez votre arrivée sur BUTUS avant le lancement.', sujet: 'Boutique' },
+  { titre: 'Devenir livreur', texte: 'Vous avez un moyen de transport et connaissez votre zone ? Parlons de votre place dans le réseau.', sujet: 'Livreur' },
+  { titre: 'Annoncer sur BUTUS', texte: 'Faites connaître votre marque auprès des utilisateurs de l\'application.', sujet: 'Publicité' },
+  { titre: 'Presse et médias', texte: 'Interview, reportage, informations sur BUTUS : nous répondons aux journalistes.', sujet: 'Presse' },
+  { titre: 'Une autre question', texte: 'Sur l\'application, la mission ou autre chose : écrivez-nous.', sujet: 'Question' },
+];
+
+const faq = [
+  { q: 'En combien de temps répondez-vous ?', a: 'Nous faisons au mieux pour répondre rapidement, en général sous quelques jours ouvrables. <!-- TODO: délai à confirmer -->' },
+  { q: 'Puis-je déjà vendre ou acheter ?', a: "Pas encore : la vente et l'achat se feront dans l'application mobile, qui arrive bientôt. Ce site présente BUTUS." },
+  { q: "Ma boutique peut-elle rejoindre BUTUS dès maintenant ?", a: "Oui, contactez-nous pour préparer votre arrivée. Votre page Boutique sera créée dans l'application à son lancement." },
+  { q: 'Où se trouve BUTUS ?', a: "BUTUS est une initiative togolaise basée à Lomé. <!-- TODO: adresse précise si elle doit être publiée -->" },
+];
+---
+<Base title="Contact | BUTUS" description="Contactez l'équipe BUTUS par e-mail, téléphone ou WhatsApp : partenariat, boutique, livraison, presse ou question sur l'application.">
+  <PageHero
+    kicker="Contact"
+    title="Parlons de votre projet"
+    lead="Partenariat, boutique, livraison, presse ou simple question : l'équipe BUTUS est à votre écoute."
+    image="contact"
+    alt="Une membre de l'équipe BUTUS répond au téléphone en souriant dans un bureau lumineux à Lomé"
+  />
+
+  <!-- Canaux -->
+  <section class="section" aria-labelledby="canaux-title">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="kicker">Nous joindre</p>
+        <h2 id="canaux-title" class="mt-3">Choisissez votre canal</h2>
+      </div>
+      <div class="mt-10 grid gap-4 lg:grid-cols-3">
+        {canaux.map((c, i) => (
+          <article class:list={['canal lift block-lg flex flex-col p-7 md:p-8', c.cls]} data-reveal style={`--d:${i * 100}ms`}>
+            <span class="canal-icon grid h-14 w-14 place-items-center rounded-2xl bg-current/10" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={c.icon} /></svg>
+            </span>
+            <h3 class="mt-8 font-black uppercase">{c.titre}</h3>
+            <p class="mt-1 text-[1.125rem] font-medium break-all">{c.valeur}</p>
+            <p class="mt-3 opacity-80">{c.texte}</p>
+            <a href={c.href} class:list={['btn mt-8 self-start', c.btn]} {...(c.external ? { target: '_blank', rel: 'noopener' } : {})}>{c.action}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Raisons -->
+  <section class="section bg-mist" aria-labelledby="raisons-title">
+    <div class="wrap">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
+        <div>
+          <p class="kicker">Pourquoi nous écrire</p>
+          <h2 id="raisons-title" class="mt-3 max-w-2xl">Nous sommes là pour vous</h2>
+        </div>
+        <p class="max-w-sm text-forest/80">Chaque lien ouvre votre messagerie avec le bon objet de message déjà rempli.</p>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {raisons.map((r, i) => (
+          <a
+            href={`mailto:${contact.email}?subject=${encodeURIComponent(`[${r.sujet}] Contact depuis butus.org`)}`}
+            class="raison lift group block-md flex flex-col bg-white p-7 ring-1 ring-forest/10"
+            data-reveal
+            style={`--d:${(i % 3) * 90}ms`}
+          >
+            <h3 class="font-bold">{r.titre}</h3>
+            <p class="mt-2 flex-1 text-forest/80">{r.texte}</p>
+            <span class="mt-6 inline-flex items-center gap-2 font-bold text-forest">
+              Écrire à l'équipe
+              <svg class="raison-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Infos pratiques -->
+  <section class="section" aria-labelledby="infos-title">
+    <div class="wrap grid gap-4 lg:grid-cols-3">
+      <div class="lg:col-span-1" data-reveal="left">
+        <p class="kicker">Infos pratiques</p>
+        <h2 id="infos-title" class="mt-3">Bon à savoir</h2>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:col-span-2">
+        <div class="block-md bg-forest p-7 text-white" data-reveal>
+          <p class="text-sm font-bold text-white/60">Où nous trouver</p>
+          <p class="font-display mt-2 text-[1.375rem]">{contact.city}</p>
+          <p class="mt-2 text-white/75">BUTUS est une initiative togolaise.</p>
+        </div>
+        <div class="block-md bg-yellow p-7 text-black" data-reveal style="--d:90ms">
+          <p class="text-sm font-bold text-black/60">Horaires</p>
+          <!-- TODO: horaires à fournir par BUTUS -->
+          <p class="font-display mt-2 text-[1.375rem]">Bientôt communiqués</p>
+          <p class="mt-2 text-black/75">En attendant, écrivez-nous sur WhatsApp ou par e-mail.</p>
+        </div>
+        <div class="block-md bg-mist p-7" data-reveal style="--d:180ms">
+          <p class="text-sm font-bold text-forest/60">Langue</p>
+          <p class="font-display mt-2 text-[1.375rem]">Français</p>
+          <p class="mt-2 text-forest/75">Nous vous répondons en français.</p>
+        </div>
+        <div class="block-md bg-green p-7 text-black" data-reveal style="--d:270ms">
+          <p class="text-sm font-bold text-black/60">Réseaux sociaux</p>
+          {contact.socials.some((s) => s.href) ? (
+            <ul class="mt-3 flex flex-wrap gap-2">
+              {contact.socials.filter((s) => s.href).map((s) => <li><a href={s.href} class="btn btn-dark !py-2" target="_blank" rel="noopener">{s.label}</a></li>)}
+            </ul>
+          ) : (
+            <>
+              <p class="font-display mt-2 text-[1.375rem]">Bientôt</p>
+              <p class="mt-2 text-black/75">Nos comptes officiels seront annoncés ici.</p>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq title="Avant de nous écrire" items={faq} />
+</Base>
+
+<style>
+  .canal-icon { transition: transform 0.5s var(--ease-out); }
+  .canal:hover .canal-icon { transform: rotate(-8deg) scale(1.08); }
+  .raison-arrow { transition: transform 0.3s var(--ease-out); }
+  .raison:hover .raison-arrow { transform: translateX(5px); }
+  @media (prefers-reduced-motion: reduce) {
+    .canal-icon, .raison-arrow { transition: none; }
+    .canal:hover .canal-icon, .raison:hover .raison-arrow { transform: none; }
+  }
+</style>

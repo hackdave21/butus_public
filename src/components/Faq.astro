@@ -1,0 +1,40 @@
+---
+interface Props {
+  title?: string;
+  items: { q: string; a: string }[];
+}
+const { title = 'Questions fréquentes', items } = Astro.props;
+---
+<section class="section" aria-labelledby="faq-title">
+  <div class="wrap grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+    <div data-reveal>
+      <p class="kicker">FAQ</p>
+      <h2 id="faq-title" class="mt-3">{title}</h2>
+    </div>
+    <div class="flex flex-col gap-3">
+      {items.map((it, i) => (
+        <details class="faq group block-md bg-mist" data-reveal style={`--d:${i * 60}ms`}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-[1.125rem] font-bold">
+            {it.q}
+            <span class="faq-icon grid h-9 w-9 shrink-0 place-items-center rounded-full bg-forest text-white" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </span>
+          </summary>
+          <div class="faq-body px-6 pb-6 text-forest/80"><p set:html={it.a} /></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq-icon { transition: transform 0.35s var(--ease-out), background-color 0.2s; }
+  .faq[open] .faq-icon { transform: rotate(45deg); background: var(--color-green); color: #000; }
+  .faq[open] .faq-body { animation: faq-in 0.4s var(--ease-out); }
+  @keyframes faq-in { from { opacity: 0; transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-icon { transition: none; }
+    .faq[open] .faq-body { animation: none; }
+  }
+</style>

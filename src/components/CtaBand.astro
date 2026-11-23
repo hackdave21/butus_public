@@ -1,0 +1,34 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}
+const {
+  title = "Une question sur BUTUS ?",
+  text = "Partenariat, boutique, livraison, presse : l'équipe BUTUS vous répond.",
+  primary = { href: '/contact', label: 'Nous contacter' },
+  secondary = { href: '/application', label: "Découvrir l'application" },
+} = Astro.props;
+---
+<section class="pb-20 md:pb-28">
+  <div class="wrap">
+    <div class="cta relative overflow-hidden block-lg bg-yellow px-7 py-12 text-black md:px-14 md:py-16" data-reveal="zoom">
+      <svg class="spin-slow pointer-events-none absolute -right-20 -top-20 h-80 w-80 text-black/[0.07]" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="16" stroke-dasharray="380 123" stroke-linecap="round" />
+        <path d="M168 62 l14 -2 l-4 14" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div class="relative grid gap-8 md:grid-cols-[1.4fr_auto] md:items-center">
+        <div>
+          <h2>{title}</h2>
+          <p class="mt-4 max-w-xl lead text-black/75">{text}</p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href={primary.href} class="btn btn-dark">{primary.label}</a>
+          {secondary && <a href={secondary.href} class="btn btn-outline">{secondary.label}</a>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

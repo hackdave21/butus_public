@@ -1,0 +1,115 @@
+---
+// Aperçus statiques (non interactifs) des écrans de l'application mobile.
+// Ce ne sont PAS des fonctionnalités du site : tout est aria-hidden et inert.
+interface Props {
+  screen: 'accueil' | 'publier' | 'commander' | 'livraison';
+}
+const { screen } = Astro.props;
+const produits = [
+  { titre: 'Téléphone Samsung', prix: '45 000 F', etat: 'Très bon état', fond: 'bg-mist' },
+  { titre: 'Chaise en bois', prix: '12 000 F', etat: 'Bon état', fond: 'bg-yellow/30' },
+  { titre: 'Ordinateur portable', prix: '150 000 F', etat: 'Reconditionné', fond: 'bg-green/20' },
+  { titre: 'Chaussures homme', prix: '8 000 F', etat: 'Comme neuf', fond: 'bg-mist' },
+];
+---
+<div class="screen h-full w-full overflow-hidden bg-white text-forest text-[11px] leading-snug">
+  {screen === 'accueil' && (
+    <div class="flex h-full flex-col gap-2.5 p-3">
+      <div class="flex items-center justify-between">
+        <span class="text-base font-black tracking-tight"><span class="text-green">B</span>UTUS</span>
+        <span class="h-6 w-6 rounded-full bg-mist"></span>
+      </div>
+      <div class="rounded-full bg-mist px-3 py-2 text-forest/60">Rechercher un objet…</div>
+      <div class="flex gap-1.5 overflow-hidden">
+        {['Téléphones', 'Meubles', 'Vêtements', 'Livres'].map((c) => (
+          <span class="shrink-0 rounded-full border border-forest/15 px-2.5 py-1">{c}</span>
+        ))}
+      </div>
+      <div class="rounded-2xl bg-forest p-3 text-white">
+        <p class="font-bold">Vendez ce qui ne vous sert plus</p>
+        <p class="text-white/70">Publiez en quelques photos.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        {produits.map((p) => (
+          <div class="rounded-xl border border-forest/10 p-1.5">
+            <div class={`mb-1.5 aspect-square rounded-lg ${p.fond}`}></div>
+            <p class="font-medium truncate">{p.titre}</p>
+            <p class="font-black">{p.prix}</p>
+            <span class="mt-0.5 inline-block rounded-full bg-green/15 px-1.5 text-[9px] text-forest">{p.etat}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {screen === 'publier' && (
+    <div class="flex h-full flex-col gap-2.5 p-3">
+      <p class="text-sm font-black">Publier un objet</p>
+      <div class="grid grid-cols-3 gap-1.5">
+        <div class="aspect-square rounded-lg bg-yellow/40"></div>
+        <div class="aspect-square rounded-lg bg-mist"></div>
+        <div class="grid aspect-square place-items-center rounded-lg border-2 border-dashed border-forest/25 text-lg text-forest/50">+</div>
+      </div>
+      {[['Titre', 'Chaise en bois massif'], ['Prix', '12 000 F'], ['Catégorie', 'Meubles'], ['Localisation', 'Lomé']].map(([k, v]) => (
+        <div class="rounded-xl bg-mist px-3 py-1.5">
+          <p class="text-[9px] text-forest/60">{k}</p>
+          <p class="font-medium">{v}</p>
+        </div>
+      ))}
+      <div>
+        <p class="mb-1 text-[9px] text-forest/60">État de l'objet</p>
+        <div class="flex flex-wrap gap-1">
+          {['Neuf', 'Comme neuf', 'Bon état', 'À réparer'].map((e) => (
+            <span class:list={['rounded-full px-2 py-0.5', e === 'Bon état' ? 'bg-forest text-white' : 'border border-forest/15']}>{e}</span>
+          ))}
+        </div>
+      </div>
+      <div class="mt-auto rounded-full bg-green py-2 text-center font-bold text-black">Publier</div>
+    </div>
+  )}
+
+  {screen === 'commander' && (
+    <div class="flex h-full flex-col gap-2 p-3">
+      <div class="flex items-center gap-2 border-b border-forest/10 pb-2">
+        <span class="grid h-7 w-7 place-items-center rounded-full bg-forest text-[10px] font-black text-green">B</span>
+        <div>
+          <p class="font-bold">Équipe BUTUS</p>
+          <p class="text-[9px] text-forest/60">Votre commande : Chaise en bois</p>
+        </div>
+      </div>
+      <div class="max-w-[80%] self-end rounded-2xl rounded-br-sm bg-green/20 px-3 py-2">Bonjour, la chaise est toujours disponible ?</div>
+      <div class="max-w-[85%] rounded-2xl rounded-bl-sm bg-mist px-3 py-2">Bonjour ! Oui. Nous confirmons avec le vendeur et organisons la livraison.</div>
+      <div class="max-w-[85%] rounded-2xl rounded-bl-sm bg-mist px-3 py-2">C'est confirmé. Livraison prévue demain à Lomé.</div>
+      <div class="max-w-[80%] self-end rounded-2xl rounded-br-sm bg-green/20 px-3 py-2">Parfait, merci !</div>
+      <div class="mt-auto rounded-full bg-mist px-3 py-2 text-forest/50">Écrire un message…</div>
+    </div>
+  )}
+
+  {screen === 'livraison' && (
+    <div class="flex h-full flex-col gap-3 p-3">
+      <p class="text-sm font-black">Suivi de livraison</p>
+      <div class="rounded-2xl bg-forest p-3 text-white">
+        <p class="text-white/70">Commande n° 1042</p>
+        <p class="font-bold">Livraison en cours</p>
+      </div>
+      <ol class="flex flex-col gap-2.5 pl-1">
+        {[
+          ['Commande confirmée', true],
+          ['Livreur assigné', true],
+          ['Produit récupéré', true],
+          ['Livraison en cours', true],
+          ['Livrée', false],
+        ].map(([label, done]) => (
+          <li class="flex items-center gap-2">
+            <span class:list={['h-3 w-3 shrink-0 rounded-full', done ? 'bg-green' : 'border-2 border-forest/25']}></span>
+            <span class:list={[!done && 'text-forest/50']}>{label}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-auto rounded-xl bg-yellow/30 p-2.5">
+        <p class="text-[9px] text-forest/70">Code de confirmation à donner au livreur</p>
+        <p class="text-lg font-black tracking-[0.3em]">4 8 2 7</p>
+      </div>
+    </div>
+  )}
+</div>

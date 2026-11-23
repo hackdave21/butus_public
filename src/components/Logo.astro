@@ -1,0 +1,12 @@
+---
+// Logo BUTUS : mot-symbole Roboto Black, « B » d'accent selon la variante de la charte.
+interface Props {
+  variant?: 'forest' | 'yellow';
+  class?: string;
+}
+const { variant = 'forest', class: cls = '' } = Astro.props;
+const bColor = variant === 'forest' ? 'text-green' : 'text-black';
+---
+<span class:list={['logo inline-block font-black tracking-tight leading-none text-white', cls]} aria-label="BUTUS">
+  <span class={bColor} aria-hidden="true">B</span><span aria-hidden="true">UTUS</span>
+</span>

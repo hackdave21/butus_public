@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  bare?: boolean; // sans en-tête ni pied de page (404)
+}
+const {
+  title = 'BUTUS — Seconde main et économie circulaire au Togo',
+  description = "BUTUS donne une seconde vie aux objets au Togo : vendre, acheter, réutiliser, réparer. Découvrez notre initiative et l'application qui arrive bientôt.",
+  noindex = false,
+  bare = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.png', Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'BUTUS',
+  url: 'https://butus.org',
+  logo: 'https://butus.org/favicon.svg',
+  slogan: 'Donner une seconde vie aux objets et créer de nouvelles opportunités.',
+  description,
+  areaServed: { '@type': 'Country', name: 'Togo' },
+  founder: { '@type': 'Person', name: 'Gedeon Essodonn BATAWOLO' },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'butus.tg@gmail.com',
+    telephone: '+228 98 92 32 95',
+    contactType: 'customer support',
+    availableLanguage: 'French',
+  },
+  // TODO: ajouter "sameAs" avec les liens des réseaux sociaux
+};
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#173A34" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="BUTUS" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <ClientRouter fallback="swap" />
+  </head>
+  <body>
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-yellow focus:text-black focus:px-4 focus:py-2 focus:rounded-full">
+      Aller au contenu
+    </a>
+    {!bare && <Header />}
+    <main id="contenu" transition:animate="fade">
+      <slot />
+    </main>
+    {!bare && <Footer />}
+    <script>
+      import '../scripts/ui.ts';
+    </script>
+  </body>
+</html>

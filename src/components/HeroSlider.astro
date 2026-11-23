@@ -1,0 +1,129 @@
+---
+// Carrousel d'accueil : défilement horizontal automatique (6 s par diapositive).
+// Pause au survol, au focus, quand l'onglet est caché, et pas de défilement auto avec reduced-motion.
+import Visual from './Visual.astro';
+import { heroSlides } from '../data/site';
+
+const toneCls = {
+  forest: { box: 'bg-forest text-white', btn: 'btn-yellow', sub: 'text-white/80', ring: 'ring-white/15' },
+  yellow: { box: 'bg-yellow text-black', btn: 'btn-dark', sub: 'text-black/75', ring: 'ring-black/10' },
+  green: { box: 'bg-green text-black', btn: 'btn-dark', sub: 'text-black/75', ring: 'ring-black/10' },
+};
+const alts: Record<string, string> = {
+  'accueil-1': "Une jeune femme sourit en tenant un téléphone d'occasion dans un marché de Lomé",
+  'accueil-2': 'Un homme photographie une chaise en bois avec son téléphone pour la vendre',
+  'accueil-3': "Une cliente examine des objets d'occasion de qualité dans une boutique",
+  'accueil-4': 'Un livreur à moto remet un colis à une cliente devant chez elle',
+  'accueil-5': "Une main tient un smartphone qui affiche l'application BUTUS",
+};
+---
+<section class="hero-slider relative pt-3" aria-roledescription="carrousel" aria-label="Présentation de BUTUS" data-slider>
+  <div class="hero-wide">
+    <div class="relative overflow-hidden block-lg" data-viewport>
+      <div class="slider-track flex" data-track>
+        {heroSlides.map((s, i) => {
+          const t = toneCls[s.tone];
+          const Title = i === 0 ? 'h1' : 'h2';
+          return (
+            <div
+              class:list={['slide relative grid w-full shrink-0 lg:grid-cols-[1.05fr_1fr]', t.box, i === 0 && 'is-active']}
+              role="group"
+              aria-roledescription="diapositive"
+              aria-label={`${i + 1} sur ${heroSlides.length}`}
+              data-slide
+              {...(i !== 0 ? { 'aria-hidden': 'true', inert: true } : {})}
+            >
+              <div class="slide-copy relative z-10 flex flex-col justify-center gap-5 p-7 md:p-12 lg:p-16 lg:pb-28">
+                <p class="kicker anim" style="--k:0">{i === heroSlides.length - 1 ? 'Bientôt disponible' : 'BUTUS, Togo'}</p>
+                <Title class="slide-title anim uppercase" style="--k:1">{s.titre}</Title>
+                <p class:list={['anim max-w-[34rem] text-[1.0625rem] md:text-[1.1875rem] leading-relaxed', t.sub]} style="--k:2">{s.texte}</p>
+                <div class="anim mt-2" style="--k:3">
+                  <a href={s.lien.href} class:list={['btn', t.btn]} tabindex={i === 0 ? undefined : -1}>{s.lien.label}</a>
+                </div>
+              </div>
+              <div class="slide-media relative h-64 overflow-hidden sm:h-80 lg:h-auto lg:min-h-[540px]">
+                <div class="kenburns h-full w-full">
+                  <Visual dir="hero" name={s.id} alt={alts[s.id]} tone={s.tone} eager={i === 0} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <!-- Contrôles -->
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-center justify-between gap-4 p-5 md:p-8">
+        <div class="pointer-events-auto flex flex-1 gap-2 max-w-[16rem] md:max-w-[22rem]" role="tablist" aria-label="Choisir une diapositive">
+          {heroSlides.map((s, i) => (
+            <button
+              type="button"
+              role="tab"
+              class="bar flex h-6 flex-1 items-center"
+              aria-label={`Diapositive ${i + 1} : ${s.titre}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              data-dot={i}
+            ><span class="bar-track relative block h-1.5 w-full overflow-hidden rounded-full"><span class="bar-fill absolute inset-y-0 left-0 rounded-full"></span></span></button>
+          ))}
+        </div>
+        <div class="pointer-events-auto flex gap-2">
+          <button type="button" class="ctrl" aria-label="Diapositive précédente" data-prev>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="ctrl" aria-label="Mettre en pause le défilement" data-pause>
+            <svg class="i-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="i-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button type="button" class="ctrl" aria-label="Diapositive suivante" data-next>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .slider-track { transition: transform 0.9s var(--ease-out); will-change: transform; }
+  .slide-title { font-size: clamp(1.875rem, 2.6vw + 1rem, 3.25rem); line-height: 1.05; }
+
+  /* Couleur des contrôles selon la diapositive active */
+  [data-slider] { --ctrl: #fff; }
+  [data-slider][data-tone='yellow'], [data-slider][data-tone='green'] { --ctrl: #000; }
+  [data-slider] [role='tablist'] { color: var(--ctrl); }
+  .ctrl {
+    display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px;
+    color: var(--ctrl); border: 1.5px solid color-mix(in srgb, var(--ctrl) 35%, transparent);
+    background: color-mix(in srgb, var(--ctrl) 6%, transparent);
+    transition: background-color 0.2s, transform 0.2s var(--ease-out);
+  }
+  .ctrl:hover { background: color-mix(in srgb, var(--ctrl) 18%, transparent); transform: scale(1.06); }
+  .i-play { display: none; }
+  [data-slider].is-paused .i-pause { display: none; }
+  [data-slider].is-paused .i-play { display: block; }
+
+  .bar { color: var(--ctrl); }
+  .bar-track { background: color-mix(in srgb, var(--ctrl) 25%, transparent); }
+  .bar-fill { width: 0; background: var(--ctrl); }
+  .bar[aria-selected='true'] .bar-fill { animation: fill var(--dur, 6s) linear forwards; }
+  [data-slider].is-paused .bar[aria-selected='true'] .bar-fill,
+  [data-slider].no-auto .bar[aria-selected='true'] .bar-fill { animation: none; width: 100%; }
+  @keyframes fill { to { width: 100%; } }
+
+  /* Entrée du texte de la diapositive active */
+  .slide .anim { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); transition-delay: calc(var(--k) * 90ms + 250ms); }
+  .slide.is-active .anim { opacity: 1; transform: none; }
+
+  /* Zoom lent de la photo active */
+  .kenburns { transform: scale(1.08); transition: transform 7s ease-out; }
+  .slide.is-active .kenburns { transform: scale(1); }
+
+  @media (min-width: 1024px) {
+    .slide-media { margin: 14px 14px 14px 0; border-radius: calc(var(--radius-lg) - 10px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slider-track, .kenburns, .slide .anim { transition: none; }
+    .slide .anim { opacity: 1; transform: none; }
+    .kenburns { transform: none; }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const current = norm(Astro.url.pathname);
+const isActive = (href: string) => norm(href) === current;
+---
+<header class="site-header sticky top-0 z-50 bg-forest text-white" data-header>
+  <div class="wrap flex h-[72px] items-center justify-between gap-4 transition-[height] duration-300" data-header-bar>
+    <a href="/" class="text-[1.75rem]" aria-label="BUTUS, accueil"><Logo /></a>
+
+    <nav aria-label="Navigation principale" class="hidden lg:block">
+      <ul class="flex items-center gap-1 rounded-full bg-white/[0.06] p-1.5 text-[0.95rem]">
+        {nav.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class:list={['nav-link relative block rounded-full px-4 py-2 font-medium', isActive(l.href) ? 'is-active' : 'text-white/80']}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+            >{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <span class="hidden sm:inline-flex items-center gap-2 rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        App bientôt disponible
+      </span>
+      <button
+        type="button"
+        class="menu-btn grid h-11 w-11 place-items-center rounded-full bg-white/10 lg:hidden"
+        aria-expanded="false"
+        aria-controls="menu-mobile"
+        data-menu-btn
+      >
+        <span class="sr-only">Ouvrir le menu</span>
+        <span class="burger" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menu-mobile" class="menu-panel lg:hidden" data-menu hidden>
+    <nav aria-label="Navigation mobile" class="wrap pb-8 pt-2">
+      <ul class="flex flex-col gap-1">
+        {nav.map((l, i) => (
+          <li style={`--i:${i}`}>
+            <a
+              href={l.href}
+              class:list={['mobile-link flex items-center justify-between rounded-2xl px-4 py-4 text-[1.375rem] font-bold', isActive(l.href) ? 'bg-green text-black' : 'text-white']}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+            >{l.label}</a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 inline-flex items-center gap-2 rounded-full bg-yellow px-4 py-2 text-sm font-bold text-black">
+        <span class="pulse-dot" aria-hidden="true"></span>App bientôt disponible
+      </p>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav-link { transition: color 0.2s, background-color 0.2s; }
+  .nav-link:hover { color: #fff; background: rgb(255 255 255 / 0.08); }
+  .nav-link.is-active { background: var(--color-green); color: #000; font-weight: 700; }
+
+  :global([data-header].is-scrolled) [data-header-bar] { height: 60px; }
+  :global([data-header].is-scrolled) { box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.45); }
+
+  .pulse-dot { position: relative; width: 8px; height: 8px; border-radius: 999px; background: var(--color-forest); }
+  .pulse-dot::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--color-forest);
+    animation: pulse 1.8s ease-out infinite;
+  }
+  @keyframes pulse { to { transform: scale(2.6); opacity: 0; } }
+
+  .burger { position: relative; display: block; width: 20px; height: 12px; }
+  .burger span { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: #fff; transition: transform 0.3s var(--ease-out), top 0.3s var(--ease-out); }
+  .burger span:first-child { top: 0; }
+  .burger span:last-child { top: 10px; }
+  [aria-expanded='true'] .burger span:first-child { top: 5px; transform: rotate(45deg); }
+  [aria-expanded='true'] .burger span:last-child { top: 5px; transform: rotate(-45deg); }
+
+  .menu-panel:not([hidden]) .mobile-link { animation: menu-in 0.45s var(--ease-out) both; animation-delay: calc(var(--i) * 50ms); }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-10px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot::after, .menu-panel .mobile-link { animation: none !important; }
+  }
+</style>

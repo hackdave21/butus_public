@@ -1,0 +1,37 @@
+---
+// En-tête des pages intérieures : texte + photo, dans un grand bloc de la charte.
+import Visual from './Visual.astro';
+interface Props {
+  kicker: string;
+  title: string;
+  lead: string;
+  image: string; // nom du fichier dans public/images/pages/
+  alt: string;
+  tone?: 'forest' | 'yellow';
+}
+const { kicker, title, lead, image, alt, tone = 'forest' } = Astro.props;
+const box = tone === 'forest' ? 'bg-forest text-white' : 'bg-yellow text-black';
+const sub = tone === 'forest' ? 'text-white/80' : 'text-black/75';
+---
+<section class="pt-3">
+  <div class="hero-wide">
+    <div class:list={['page-hero relative grid overflow-hidden block-lg lg:grid-cols-[1.1fr_1fr]', box]}>
+      <svg class="spin-slow pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 opacity-[0.08]" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="380 123" stroke-linecap="round" />
+      </svg>
+      <div class="relative z-10 flex flex-col justify-center gap-5 p-7 md:p-12 lg:p-16">
+        <nav aria-label="Fil d'Ariane" class:list={['text-sm', sub]} data-reveal>
+          <a href="/" class="underline-offset-4 hover:underline">Accueil</a>
+          <span aria-hidden="true" class="mx-2">/</span>
+          <span aria-current="page">{kicker}</span>
+        </nav>
+        <h1 data-reveal style="--d:80ms">{title}</h1>
+        <p class:list={['lead max-w-[34rem]', sub]} data-reveal style="--d:160ms">{lead}</p>
+        <slot />
+      </div>
+      <div class="relative h-64 overflow-hidden sm:h-80 lg:m-3.5 lg:ml-0 lg:h-auto lg:min-h-[460px] lg:rounded-[22px]" data-reveal="zoom" style="--d:120ms">
+        <Visual dir="pages" name={image} alt={alt} tone={tone} eager />
+      </div>
+    </div>
+  </div>
+</section>

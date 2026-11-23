@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import AppTeaser from '../components/AppTeaser.astro';
+import Phone from '../components/Phone.astro';
+import PhoneScreens from '../components/PhoneScreens.astro';
+import Audience from '../components/Audience.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const features = [
+  { titre: 'Recherche simple', texte: 'Tapez « téléphone Samsung » ou « chaise » et trouvez tout de suite.', icon: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3' },
+  { titre: 'Catégories et filtres', texte: 'Prix, localisation, état, type de vendeur : affinez en un geste.', icon: 'M4 6h16M7 12h10M10 18h4' },
+  { titre: 'Photos depuis le téléphone', texte: "Prenez vos photos ou choisissez-les dans la galerie, dans l'ordre que vous voulez.", icon: 'M4 8h3l2-3h6l2 3h3v11H4zM12 11a3 3 0 1 0 0 6 3 3 0 0 0 0-6z' },
+  { titre: 'Favoris', texte: 'Gardez les objets qui vous plaisent et soyez prévenu si le prix change.', icon: 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z' },
+  { titre: 'Messagerie BUTUS', texte: "Échangez avec l'équipe BUTUS, qui fait le lien avec le vendeur.", icon: 'M4 5h16v11H8l-4 4z' },
+  { titre: 'Suivi de livraison', texte: 'Livreur assigné, objet récupéré, en route : suivez chaque étape.', icon: 'M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z' },
+  { titre: 'Notifications', texte: 'Commande, message, livraison : vous êtes prévenu au bon moment.', icon: 'M6 16V11a6 6 0 1 1 12 0v5l2 2H4zM10 20h4' },
+  { titre: 'Légère et rapide', texte: 'Images optimisées pour consommer peu de données mobiles.', icon: 'M13 3L4 14h7l-1 7 9-11h-7z' },
+];
+const ecrans = [
+  { id: 'accueil', label: "L'accueil" },
+  { id: 'publier', label: 'Publier un objet' },
+  { id: 'commander', label: 'La messagerie BUTUS' },
+  { id: 'livraison', label: 'Le suivi de livraison' },
+] as const;
+const roadmap = [
+  { titre: 'Au lancement', points: ['Comptes Particulier et Boutique', 'Publication et recherche', 'Commande avec BUTUS', 'Livraison et suivi'], cls: 'bg-green text-black' },
+  { titre: 'Ensuite', points: ['Notation des vendeurs et livreurs', 'Paiement mobile intégré', 'Suivi GPS des livreurs'], cls: 'bg-mist text-forest' },
+  { titre: 'Plus tard', points: ["Estimation de l'impact environnemental", 'Programme de fidélité', 'Recommandations personnalisées'], cls: 'bg-mist text-forest' },
+];
+const faq = [
+  { q: "Quand l'application sera-t-elle disponible ?", a: "L'application arrive bientôt, d'abord sur Android puis sur iPhone. La date de lancement sera annoncée ici et sur nos réseaux." },
+  { q: "L'application sera-t-elle gratuite ?", a: "Les conditions d'utilisation (téléchargement, frais de livraison, commissions) seront précisées au lancement. <!-- TODO: réponse à confirmer par BUTUS -->" },
+  { q: 'Puis-je contacter directement le vendeur ?', a: "Non. Pour votre sécurité, BUTUS fait le lien entre l'acheteur et le vendeur dans une messagerie dédiée, puis confirme la vente." },
+  { q: 'Comment se passera la livraison ?', a: "Un livreur BUTUS récupère l'objet chez le vendeur et vous le remet. Vous suivez chaque étape et confirmez la réception avec un code." },
+  { q: 'Dans quelles villes ?', a: 'Les zones couvertes au lancement seront annoncées prochainement. <!-- TODO: préciser les villes -->' },
+];
+---
+<Base title="L'application | BUTUS" description="Découvrez l'application mobile BUTUS : vendre, acheter et se faire livrer d'occasion au Togo. Bientôt sur Android, puis sur iPhone.">
+  <PageHero
+    kicker="L'application"
+    title="L'application BUTUS arrive bientôt"
+    lead="Achetez, vendez et faites-vous livrer depuis votre téléphone. Simple, même si vous n'avez jamais acheté en ligne."
+    image="application"
+    alt="Une personne tient un smartphone et parcourt l'application BUTUS, dans une rue de Lomé"
+  >
+    <div class="mt-2 flex flex-wrap gap-3" data-reveal style="--d:220ms">
+      <span class="inline-flex items-center gap-2 rounded-full bg-yellow px-4 py-2.5 text-sm font-bold text-black">Bientôt sur Android</span>
+      <span class="inline-flex items-center gap-2 rounded-full border border-white/30 px-4 py-2.5 text-sm font-bold">Puis sur iPhone</span>
+    </div>
+  </PageHero>
+
+  <!-- Fonctionnalités -->
+  <section class="section" aria-labelledby="features-title">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="kicker">Fonctionnalités</p>
+        <h2 id="features-title" class="mt-3 max-w-2xl">Tout ce qu'il faut, rien de compliqué</h2>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {features.map((f, i) => (
+          <article class="feature lift block-md bg-mist p-6" data-reveal style={`--d:${(i % 4) * 80}ms`}>
+            <span class="feat-icon grid h-12 w-12 place-items-center rounded-2xl bg-forest text-green" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={f.icon} /></svg>
+            </span>
+            <h3 class="mt-5 text-[1.1875rem] font-bold">{f.titre}</h3>
+            <p class="mt-2 text-forest/80">{f.texte}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AppTeaser />
+
+  <!-- Galerie d'écrans -->
+  <section class="section overflow-hidden" aria-labelledby="ecrans-title">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="kicker">Aperçu</p>
+        <h2 id="ecrans-title" class="mt-3">Un avant-goût des écrans</h2>
+        <p class="mt-4 prose-width text-forest/80">Aperçus non contractuels : le design final peut évoluer d'ici au lancement.</p>
+      </div>
+      <div class="mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto pb-6 lg:justify-between lg:overflow-visible">
+        {ecrans.map((e, i) => (
+          <figure class="shrink-0 snap-center text-center" data-reveal style={`--d:${i * 110}ms`}>
+            <div class="float" style={`animation-delay:${i * -1.5}s`}>
+              <Phone label={`Aperçu : ${e.label}`}><PhoneScreens screen={e.id} /></Phone>
+            </div>
+            <figcaption class="mt-5 font-bold">{e.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Audience />
+
+  <!-- Feuille de route -->
+  <section class="section bg-forest text-white" aria-labelledby="roadmap-title">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="kicker text-white/75">Feuille de route</p>
+        <h2 id="roadmap-title" class="mt-3 max-w-2xl">Une application qui évoluera avec vous</h2>
+      </div>
+      <ol class="roadmap relative mt-12 grid gap-4 lg:grid-cols-3">
+        {roadmap.map((r, i) => (
+          <li class:list={['block-lg p-7', r.cls]} data-reveal style={`--d:${i * 120}ms`}>
+            <span class="text-sm font-bold opacity-70">Étape {i + 1}</span>
+            <h3 class="mt-1 text-[1.5rem] font-black uppercase">{r.titre}</h3>
+            <ul class="mt-5 flex flex-col gap-2.5">
+              {r.points.map((p) => (
+                <li class="flex items-start gap-3"><span class="mt-[0.6em] h-2 w-2 shrink-0 rounded-full bg-current" aria-hidden="true"></span>{p}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-6 text-sm text-white/60">Les étapes sont indicatives et sans date : elles évolueront selon vos retours.</p>
+    </div>
+  </section>
+
+  <Faq title="Vos questions sur l'application" items={faq} />
+  <CtaBand title="Envie d'en savoir plus ?" text="Suivez le lancement de l'application ou posez-nous vos questions." secondary={{ href: '/mission', label: 'Notre mission' }} />
+</Base>
+
+<style>
+  .feat-icon { transition: transform 0.5s var(--ease-out), background-color 0.3s, color 0.3s; }
+  .feature:hover .feat-icon { transform: rotate(-8deg) scale(1.08); background: var(--color-green); color: #000; }
+  @media (prefers-reduced-motion: reduce) { .feat-icon { transition: none; } .feature:hover .feat-icon { transform: none; } }
+</style>

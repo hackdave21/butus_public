@@ -1,0 +1,15 @@
+---
+// Cadre de téléphone en CSS. Le contenu est un aperçu illustratif, retiré de l'arbre d'accessibilité.
+interface Props { class?: string; label?: string }
+const { class: cls = '', label = "Aperçu de l'application mobile BUTUS" } = Astro.props;
+---
+<figure class:list={['phone relative mx-auto w-[248px] shrink-0', cls]} role="img" aria-label={label}>
+  <div class="rounded-[42px] bg-black p-[9px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]">
+    <div class="relative aspect-[9/19] overflow-hidden rounded-[34px] bg-white" aria-hidden="true" inert>
+      <div class="absolute left-1/2 top-2 z-10 h-[18px] w-[72px] -translate-x-1/2 rounded-full bg-black"></div>
+      <div class="h-full pt-7">
+        <slot />
+      </div>
+    </div>
+  </div>
+</figure>

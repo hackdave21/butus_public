@@ -1,0 +1,63 @@
+---
+import Phone from './Phone.astro';
+import PhoneScreens from './PhoneScreens.astro';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+
+// Le parcours dans l'app est une vraie séquence : la numérotation est justifiée ici.
+const steps = [
+  { id: 'publier', titre: 'Publiez vos objets', texte: "Quelques photos, un prix, l'état de l'objet. Votre annonce est prête en quelques minutes." },
+  { id: 'commander', titre: 'Commandez en confiance', texte: "BUTUS fait le lien entre l'acheteur et le vendeur dans une messagerie dédiée, et confirme chaque vente." },
+  { id: 'livraison', titre: 'Faites-vous livrer', texte: "Un livreur BUTUS récupère et livre l'objet. Vous suivez chaque étape et confirmez à la réception." },
+] as const;
+---
+<section id="parcours" class="section relative overflow-hidden bg-forest text-white" aria-labelledby="app-title" data-steps-root>
+  <svg class="spin-slow pointer-events-none absolute -right-40 top-10 h-[34rem] w-[34rem] text-white/[0.04]" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="14" stroke-dasharray="380 123" stroke-linecap="round" />
+  </svg>
+  <div class="wrap relative grid items-center gap-14 lg:grid-cols-[1fr_auto] lg:gap-24">
+    <div>
+      <div data-reveal>
+        <p class="kicker text-white/75">Comment ça marche</p>
+        <h2 id="app-title" class="mt-3 max-w-2xl">{compact ? "L'application arrive" : 'En trois étapes'}</h2>
+        <p class="mt-5 prose-width text-white/80">
+          Simple, même si vous n'avez jamais acheté en ligne. Voici ce que l'application BUTUS vous permettra de faire.
+        </p>
+      </div>
+
+      <ol class="mt-10 flex flex-col gap-3">
+        {steps.map((s, i) => (
+          <li data-reveal style={`--d:${i * 100}ms`}>
+            <button type="button" class="step flex w-full items-start gap-5 rounded-[20px] p-5 text-left md:p-6" data-step={s.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+              <span class="step-num grid h-11 w-11 shrink-0 place-items-center rounded-full font-display text-lg" aria-hidden="true">{i + 1}</span>
+              <span>
+                <span class="block text-[1.1875rem] font-bold leading-tight">{s.titre}</span>
+                <span class="mt-2 block text-white/75">{s.texte}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      {compact && <a href="/application" class="btn btn-yellow mt-8" data-reveal>Découvrir l'application</a>}
+    </div>
+
+    <div class="float relative grid" data-reveal="right">
+      {steps.map((s, i) => (
+        <div class:list={['screen-slot', i !== 0 && 'is-hidden']} data-screen={s.id}>
+          <Phone label={`Aperçu de l'écran : ${s.titre.toLowerCase()}`}><PhoneScreens screen={s.id} /></Phone>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .step { border: 1px solid rgb(255 255 255 / 0.14); transition: border-color 0.2s, background-color 0.3s; }
+  .step:hover { border-color: rgb(255 255 255 / 0.35); }
+  .step-num { border: 2px solid rgb(255 255 255 / 0.35); transition: background-color 0.3s, color 0.3s; }
+  .step[aria-pressed='true'] { background: var(--color-forest-soft); border-color: var(--color-green); }
+  .step[aria-pressed='true'] .step-num { background: var(--color-green); border-color: var(--color-green); color: #000; }
+  .screen-slot { grid-area: 1 / 1; transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out); }
+  .screen-slot.is-hidden { opacity: 0; transform: translateX(24px) rotate(2deg); pointer-events: none; visibility: hidden; }
+  @media (prefers-reduced-motion: reduce) { .screen-slot, .step, .step-num { transition: none; } }
+</style>

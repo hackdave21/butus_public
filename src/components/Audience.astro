@@ -1,0 +1,49 @@
+---
+const publics = [
+  {
+    titre: 'Particuliers',
+    texte: 'Vendez ce qui encombre vos placards et trouvez ce dont vous avez besoin, près de chez vous, à bon prix.',
+    points: ['Publier une annonce simplement', 'Suivre vos ventes et vos achats', 'Être livré à domicile'],
+    cls: 'bg-white text-forest ring-1 ring-forest/15',
+    dot: 'bg-green',
+  },
+  {
+    titre: 'Boutiques',
+    texte: 'Commerçants, revendeurs, entreprises : présentez votre activité et vendez à plus de clients.',
+    points: ['Une page Boutique à votre image', 'Votre catalogue et votre stock', 'Vos commandes et vos statistiques', 'Un badge de boutique vérifiée'],
+    cls: 'bg-yellow text-black',
+    dot: 'bg-black',
+  },
+  {
+    titre: 'Livreurs',
+    texte: 'Rejoignez le réseau de livraison BUTUS et réalisez des missions dans votre zone.',
+    points: ['Des missions claires', 'Un suivi étape par étape', "L'historique de vos livraisons"],
+    cls: 'bg-forest text-white',
+    dot: 'bg-green',
+  },
+];
+---
+<section id="pour-qui" class="section" aria-labelledby="audience-title">
+  <div class="wrap">
+    <div data-reveal>
+      <p class="kicker">Pour qui ?</p>
+      <h2 id="audience-title" class="mt-3 max-w-3xl">Pensée pour chacun</h2>
+    </div>
+    <div class="mt-10 grid gap-3 md:mt-12 md:gap-4 lg:grid-cols-3">
+      {publics.map((p, i) => (
+        <article class:list={['lift block-md flex flex-col p-7 md:p-8', p.cls]} data-reveal style={`--d:${i * 100}ms`}>
+          <h3 class="uppercase font-black">{p.titre}</h3>
+          <p class="mt-3">{p.texte}</p>
+          <ul class="mt-6 flex flex-col gap-2.5 border-t border-current/15 pt-5">
+            {p.points.map((pt) => (
+              <li class="flex items-start gap-3">
+                <span class:list={['mt-[0.6em] h-2 w-2 shrink-0 rounded-full', p.dot]} aria-hidden="true"></span>
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
