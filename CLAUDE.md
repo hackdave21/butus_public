@@ -162,9 +162,10 @@ butus_public/
 - Textes simples et courts.
 
 ### Hébergement et déploiement
-- Site statique : **Cloudflare Pages** recommandé (gratuit, CDN proche de l'Afrique de l'Ouest).
-  Alternatives : Netlify, Vercel ou GitHub Pages.
-- DNS de `butus.org` : CNAME vers l'hébergeur, HTTPS forcé, `www` → apex en 301.
+- Hébergeur retenu : **Hostinger** (plan Cloud Startup, site `butus.org`, domaine enregistré chez Hostinger).
+- Déploiement automatique : GitHub Actions construit `dist/` puis l'envoie par rsync/SSH dans le
+  `public_html` du site à chaque push sur `main`. Procédure complète dans [`README.md`](README.md).
+- HTTPS forcé et `www` → apex en 301 via `public/.htaccess`. Ne jamais déployer dans le dossier de `api.butus.org`.
 - Le compte d'hébergement doit appartenir à BUTUS et pas au compte personnel d'une seule personne.
 
 ---
