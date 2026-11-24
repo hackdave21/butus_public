@@ -31,7 +31,7 @@ const sub = tone === 'forest' ? 'text-white/80' : 'text-black/75';
       </div>
       {image && (
       <div class="relative h-64 overflow-hidden sm:h-80 lg:m-3.5 lg:ml-0 lg:h-auto lg:min-h-[460px] lg:rounded-[22px]" data-reveal="zoom" style="--d:120ms">
-        <Visual dir="pages" name={image} alt={alt} tone={tone} eager />
+        <Visual dir="pages" name={image} alt={alt} tone={tone} eager sizes="(min-width: 1024px) max(640px, 48vw), 100vw" />
       </div>
       )}
     </div>

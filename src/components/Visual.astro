@@ -1,6 +1,6 @@
 ---
 // Photo d'un hero, ou visuel de remplacement aux couleurs de la charte tant qu'elle n'est pas générée.
-import { findImage } from '../lib/images';
+import { findPhoto } from '../lib/images';
 interface Props {
   dir: string;
   name: string;
@@ -8,18 +8,22 @@ interface Props {
   tone?: 'forest' | 'yellow' | 'green';
   class?: string;
   eager?: boolean;
+  /** Largeur affichée (attribut `sizes`). La photo est en 4:3 et recadrée : compter la largeur avant recadrage. */
+  sizes?: string;
 }
-const { dir, name, alt, tone = 'forest', class: cls = '', eager = false } = Astro.props;
-const src = findImage(dir, name);
+const { dir, name, alt, tone = 'forest', class: cls = '', eager = false, sizes = '100vw' } = Astro.props;
+const photo = await findPhoto(dir, name);
 const tones = {
   forest: 'bg-forest-soft text-green',
   yellow: 'bg-[#f5bd33] text-black/20',
   green: 'bg-[#2fc265] text-forest/25',
 };
 ---
-{src ? (
+{photo ? (
   <img
-    src={src}
+    srcset={photo.srcset}
+    sizes={photo.srcset && sizes}
+    src={photo.src}
     alt={alt}
     class:list={['visual h-full w-full object-cover', cls]}
     loading={eager ? 'eager' : 'lazy'}

@@ -79,6 +79,15 @@ function initSlider() {
 
   const tones = slides.map((s) => (s.classList.contains('bg-yellow') ? 'yellow' : s.classList.contains('bg-green') ? 'green' : 'forest'));
 
+  // Charge la photo d'une diapositive (les autres restent en attente, voir HeroSlider.astro)
+  const near = (i: number) => {
+    const s = slides[(i + slides.length) % slides.length];
+    if (s.classList.contains('is-near')) return;
+    s.querySelector('img')?.setAttribute('loading', 'eager');
+    s.classList.add('is-near');
+  };
+  const nearBoth = () => { near(index + 1); near(index - 1); };
+
   const go = (i: number) => {
     index = (i + slides.length) % slides.length;
     track.style.transform = `translateX(-${index * 100}%)`;
@@ -99,6 +108,8 @@ function initSlider() {
         d.setAttribute('aria-selected', 'true');
       }
     });
+    near(index);
+    if (auto) near(index + 1);
     schedule();
   };
 
@@ -125,6 +136,8 @@ function initSlider() {
   const viewport = root.querySelector<HTMLElement>('[data-viewport]')!;
   const hoverOn = () => { hoverPaused = true; window.clearTimeout(timer); };
   const hoverOff = () => { hoverPaused = false; go(index); };
+  // Dès que le visiteur s'intéresse au carrousel, les diapositives voisines doivent être prêtes
+  (['pointerenter', 'touchstart', 'focusin'] as const).forEach((ev) => viewport.addEventListener(ev, nearBoth, { passive: true }));
   viewport.addEventListener('mouseenter', hoverOn);
   viewport.addEventListener('mouseleave', hoverOff);
   viewport.addEventListener('focusin', hoverOn);

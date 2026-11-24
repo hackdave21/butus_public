@@ -9,6 +9,8 @@ const toneCls = {
   yellow: { box: 'bg-yellow text-black', btn: 'btn-dark', sub: 'text-black/75', ring: 'ring-black/10' },
   green: { box: 'bg-green text-black', btn: 'btn-dark', sub: 'text-black/75', ring: 'ring-black/10' },
 };
+// Photo 4:3 recadrée dans un bloc d'au moins 540 px de haut sur grand écran : 720 px de large au minimum.
+const PHOTO_SIZES = '(min-width: 1024px) max(720px, 50vw), 100vw';
 const alts: Record<string, string> = {
   'accueil-1': "Une jeune femme sourit en tenant un téléphone d'occasion dans un marché de Lomé",
   'accueil-2': 'Un homme photographie une chaise en bois avec son téléphone pour la vendre',
@@ -26,7 +28,7 @@ const alts: Record<string, string> = {
           const Title = i === 0 ? 'h1' : 'h2';
           return (
             <div
-              class:list={['slide relative grid w-full shrink-0 lg:grid-cols-[1.05fr_1fr]', t.box, i === 0 && 'is-active']}
+              class:list={['slide relative grid w-full shrink-0 lg:grid-cols-[1.05fr_1fr]', t.box, i === 0 && 'is-active is-near']}
               role="group"
               aria-roledescription="diapositive"
               aria-label={`${i + 1} sur ${heroSlides.length}`}
@@ -43,7 +45,7 @@ const alts: Record<string, string> = {
               </div>
               <div class="slide-media relative h-64 overflow-hidden sm:h-80 lg:h-auto lg:min-h-[540px]">
                 <div class="kenburns h-full w-full">
-                  <Visual dir="hero" name={s.id} alt={alts[s.id]} tone={s.tone} eager={i === 0} />
+                  <Visual dir="hero" name={s.id} alt={alts[s.id]} tone={s.tone} eager={i === 0} sizes={PHOTO_SIZES} />
                 </div>
               </div>
             </div>
@@ -112,6 +114,10 @@ const alts: Record<string, string> = {
   /* Entrée du texte de la diapositive active */
   .slide .anim { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); transition-delay: calc(var(--k) * 90ms + 250ms); }
   .slide.is-active .anim { opacity: 1; transform: none; }
+
+  /* Une photo n'est chargée qu'à l'approche de sa diapositive (classe .is-near posée par ui.ts) :
+     un `img` en loading="lazy" et display: none n'est pas téléchargé. Sans JS, rien n'est masqué. */
+  :global(.js) .slide:not(.is-near) :global(img) { display: none; }
 
   /* Zoom lent de la photo active */
   .kenburns { transform: scale(1.08); transition: transform 7s ease-out; }
