@@ -140,7 +140,7 @@ Aucune donnée personnelle n'est collectée, donc pas de bannière cookies (si l
 butus_public/
 ├─ CLAUDE.md, PROMPTS_IMAGES.md
 ├─ public/            favicons (favicon.ico, favicon-32, apple-touch-icon, icon-192/512, site.webmanifest), og-image.png, robots.txt, images/
-├─ brand/             sources du logo « B » (fond forest et fond blanc), non publiées
+├─ brand/             sources non publiées : logo « B » (fond forest et fond blanc), captures de l'app (app/)
 └─ src/
    ├─ data/site.ts          menu, contact, catégories, piliers, diapositives
    ├─ lib/images.ts         détection des photos présentes

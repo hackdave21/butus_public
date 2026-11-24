@@ -6,9 +6,9 @@ const { compact = false } = Astro.props;
 
 // Le parcours dans l'app est une vraie séquence : la numérotation est justifiée ici.
 const steps = [
-  { id: 'publier', titre: 'Publiez vos objets', texte: "Quelques photos, un prix, l'état de l'objet. Votre annonce est prête en quelques minutes." },
-  { id: 'commander', titre: 'Commandez en confiance', texte: "BUTUS fait le lien entre l'acheteur et le vendeur dans une messagerie dédiée, et confirme chaque vente." },
-  { id: 'livraison', titre: 'Faites-vous livrer', texte: "Un livreur BUTUS récupère et livre l'objet. Vous suivez chaque étape et confirmez à la réception." },
+  { id: 'publier', ecrans: ['publier'], titre: 'Publiez vos objets', texte: "Quelques photos, un prix, l'état de l'objet. Votre annonce est prête en quelques minutes." },
+  { id: 'commander', ecrans: ['commander'], titre: 'Commandez en confiance', texte: "BUTUS fait le lien entre l'acheteur et le vendeur dans une messagerie dédiée, et confirme chaque vente." },
+  { id: 'livraison', ecrans: ['livraison-1', 'livraison-2'], titre: 'Faites-vous livrer', texte: "Un livreur BUTUS récupère et livre l'objet. Vous suivez chaque étape et confirmez à la réception." },
 ] as const;
 ---
 <section id="parcours" class="section relative overflow-hidden bg-forest text-white" aria-labelledby="app-title" data-steps-root>
@@ -41,10 +41,12 @@ const steps = [
       {compact && <a href="/application" class="btn btn-yellow mt-8" data-reveal>Découvrir l'application</a>}
     </div>
 
-    <div class="float relative grid" data-reveal="right">
+    <div class="float relative grid items-center" data-reveal="right">
       {steps.map((s, i) => (
-        <div class:list={['screen-slot', i !== 0 && 'is-hidden']} data-screen={s.id}>
-          <Phone label={`Aperçu de l'écran : ${s.titre.toLowerCase()}`}><PhoneScreens screen={s.id} /></Phone>
+        <div class:list={['screen-slot', s.ecrans.length > 1 && 'is-pair', i !== 0 && 'is-hidden']} data-screen={s.id}>
+          {s.ecrans.map((e, k) => (
+            <Phone label={`Aperçu de l'écran : ${s.titre.toLowerCase()}${s.ecrans.length > 1 ? ` (${k + 1} sur ${s.ecrans.length})` : ''}`}><PhoneScreens screen={e} /></Phone>
+          ))}
         </div>
       ))}
     </div>
@@ -58,6 +60,11 @@ const steps = [
   .step[aria-pressed='true'] { background: var(--color-forest-soft); border-color: var(--color-green); }
   .step[aria-pressed='true'] .step-num { background: var(--color-green); border-color: var(--color-green); color: #000; }
   .screen-slot { grid-area: 1 / 1; transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out); }
+  /* Deux captures complémentaires du même écran, côte à côte */
+  .screen-slot.is-pair { --phone-w: min(206px, calc((100vw - 2.75rem) / 2)); display: flex; justify-content: center; gap: 0.75rem; }
+  .is-pair :global(.phone) { margin-inline: 0; }
+  @media (min-width: 1024px) { .screen-slot.is-pair { --phone-w: 190px; gap: 1rem; } }
+  @media (min-width: 1280px) { .screen-slot.is-pair { --phone-w: 226px; } }
   .screen-slot.is-hidden { opacity: 0; transform: translateX(24px) rotate(2deg); pointer-events: none; visibility: hidden; }
   @media (prefers-reduced-motion: reduce) { .screen-slot, .step, .step-num { transition: none; } }
 </style>

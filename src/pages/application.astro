@@ -22,7 +22,8 @@ const ecrans = [
   { id: 'accueil', label: "L'accueil" },
   { id: 'publier', label: 'Publier un objet' },
   { id: 'commander', label: 'La messagerie BUTUS' },
-  { id: 'livraison', label: 'Le suivi de livraison' },
+  { id: 'livraison-1', label: 'Le suivi de commande' },
+  { id: 'livraison-2', label: 'Le détail et la livraison' },
 ] as const;
 const roadmap = [
   { titre: 'Au lancement', points: ['Comptes Particulier et Boutique', 'Publication et recherche', 'Commande avec BUTUS', 'Livraison et suivi'], cls: 'bg-green text-black' },
@@ -80,7 +81,7 @@ const faq = [
         <h2 id="ecrans-title" class="mt-3">Un avant-goût des écrans</h2>
         <p class="mt-4 prose-width text-forest/80">Aperçus non contractuels : le design final peut évoluer d'ici au lancement.</p>
       </div>
-      <div class="mt-12 flex snap-x snap-mandatory gap-8 overflow-x-auto pb-6 lg:justify-between lg:overflow-visible">
+      <div class="ecrans mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pt-4 pb-6 xl:justify-between xl:gap-4 xl:overflow-visible">
         {ecrans.map((e, i) => (
           <figure class="shrink-0 snap-center text-center" data-reveal style={`--d:${i * 110}ms`}>
             <div class="float" style={`animation-delay:${i * -1.5}s`}>
@@ -127,4 +128,9 @@ const faq = [
   .feat-icon { transition: transform 0.5s var(--ease-out), background-color 0.3s, color 0.3s; }
   .feature:hover .feat-icon { transform: rotate(-8deg) scale(1.08); background: var(--color-green); color: #000; }
   @media (prefers-reduced-motion: reduce) { .feat-icon { transition: none; } .feature:hover .feat-icon { transform: none; } }
+</style>
+
+<style>
+  .ecrans { --phone-w: 236px; }
+  @media (min-width: 1280px) { .ecrans { --phone-w: 214px; } }
 </style>

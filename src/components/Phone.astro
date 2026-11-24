@@ -1,15 +1,20 @@
 ---
-// Cadre de téléphone en CSS. Le contenu est un aperçu illustratif, retiré de l'arbre d'accessibilité.
+// Cadre de téléphone en CSS. Toutes ses dimensions suivent --phone-w (248px par défaut).
 interface Props { class?: string; label?: string }
 const { class: cls = '', label = "Aperçu de l'application mobile BUTUS" } = Astro.props;
 ---
-<figure class:list={['phone relative mx-auto w-[248px] shrink-0', cls]} role="img" aria-label={label}>
-  <div class="rounded-[42px] bg-black p-[9px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]">
-    <div class="relative aspect-[9/19] overflow-hidden rounded-[34px] bg-white" aria-hidden="true" inert>
-      <div class="absolute left-1/2 top-2 z-10 h-[18px] w-[72px] -translate-x-1/2 rounded-full bg-black"></div>
-      <div class="h-full pt-7">
-        <slot />
-      </div>
+<div class:list={['phone relative mx-auto shrink-0', cls]} role="img" aria-label={label}>
+  <div class="phone-body bg-black shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]">
+    <div class="phone-screen relative overflow-hidden bg-white" aria-hidden="true">
+      <div class="phone-notch absolute left-1/2 z-10 -translate-x-1/2 rounded-full bg-black"></div>
+      <slot />
     </div>
   </div>
-</figure>
+</div>
+
+<style>
+  .phone { --w: var(--phone-w, 248px); width: var(--w); }
+  .phone-body { padding: calc(var(--w) * 0.036); border-radius: calc(var(--w) * 0.17); }
+  .phone-screen { aspect-ratio: 9 / 20; border-radius: calc(var(--w) * 0.137); }
+  .phone-notch { top: calc(var(--w) * 0.03); width: calc(var(--w) * 0.26); height: calc(var(--w) * 0.062); }
+</style>
