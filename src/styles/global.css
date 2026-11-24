@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "@fontsource-variable/roboto";
-@import "@fontsource-variable/bricolage-grotesque/standard.css";
+@import "./bricolage.css";
 
 /* Tokens de la charte BUTUS — ne pas ajouter de couleur de marque */
 @theme {
